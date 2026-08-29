@@ -13,12 +13,16 @@ build/
 .next/
 out/
 
-# Environment and Secrets
+# Environment and Secrets — NEVER commit real .env files
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+# But DO commit .env.example files (they contain no real values)
+!.env.example
+!backend/.env.example
+!frontend/.env.example
 *.pem
 
 # Uploads and temporary files

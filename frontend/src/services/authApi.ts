@@ -2,7 +2,7 @@ import { api } from './api';
 import { User } from '../types';
 
 export const authApi = {
-  signup: async (data: { name: string; email: string; password: string; department?: string; role?: string }) => {
+  signup: async (data: { name: string; email: string; password: string; department?: string }) => {
     const res = await api.post('/auth/signup', data);
     return res.data;
   },
@@ -12,7 +12,11 @@ export const authApi = {
     return res.data;
   },
 
-  googleAuth: async (data: { email?: string; name?: string; avatar?: string; googleId?: string; credential?: string }) => {
+  /**
+   * Google OAuth — only sends the `credential` (Google ID token).
+   * Backend verifies with Google before creating/updating the user.
+   */
+  googleAuth: async (data: { credential: string }) => {
     const res = await api.post('/auth/google', data);
     return res.data;
   },

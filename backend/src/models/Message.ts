@@ -15,6 +15,8 @@ export interface IMessage extends MongooseDocument {
   content: string;
   sources: ISourceRef[];
   isGrounded: boolean;
+  confidenceScore?: number;
+  confidenceLabel?: 'High' | 'Medium' | 'Low';
   language?: string;
   createdAt: Date;
 }
@@ -49,6 +51,15 @@ const MessageSchema = new Schema<IMessage>(
     isGrounded: {
       type: Boolean,
       default: false,
+    },
+    confidenceScore: {
+      type: Number,
+      default: 0,
+    },
+    confidenceLabel: {
+      type: String,
+      enum: ['High', 'Medium', 'Low'],
+      default: 'Low',
     },
     language: {
       type: String,

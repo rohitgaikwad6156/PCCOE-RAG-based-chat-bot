@@ -19,7 +19,7 @@ export const SignupPage: React.FC = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      await signup(name, email, password, department, 'student');
+      await signup(name, email, password, department);
       showToast('Account created successfully!', 'success');
       navigate('/chat');
     } catch (err: any) {

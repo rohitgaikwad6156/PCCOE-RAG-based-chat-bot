@@ -5,8 +5,9 @@ import { AuthRequest } from '../middleware/auth';
 export class AuthController {
   async signup(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { name, email, password, department, role } = req.body;
-      const result = await authService.signup(name, email, password, department, role);
+      const { name, email, password, department } = req.body;
+      // Note: role is intentionally NOT accepted from req.body — assigned server-side
+      const result = await authService.signup(name, email, password, department);
       res.status(201).json({
         success: true,
         message: 'Account created successfully.',
@@ -49,10 +50,15 @@ export class AuthController {
     }
   }
 
+  /**
+   * Google OAuth endpoint.
+   * Only the `credential` field (Google ID token) is accepted.
+   * Email, name, googleId sent directly from frontend are ignored — identity comes from verified token only.
+   */
   async googleAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { email, name, avatar, googleId, credential } = req.body;
-      const result = await authService.googleAuth({ email, name, avatar, googleId, credential });
+      const { credential } = req.body;
+      const result = await authService.googleAuth({ credential });
       res.status(200).json({
         success: true,
         message: 'Signed in with Google successfully.',

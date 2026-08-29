@@ -28,6 +28,9 @@ export class AuthService {
 
   constructor() {
     this.googleClient = new OAuth2Client(env.GOOGLE_CLIENT_ID);
+    if (!env.GOOGLE_CLIENT_ID) {
+      logger.warn('GOOGLE_CLIENT_ID is not set. Google OAuth sign-in will be unavailable.');
+    }
   }
 
   generateToken(user: any): string {
@@ -63,7 +66,8 @@ export class AuthService {
 
   async signup(name: string, email: string, password: string, department = 'General', role: 'student' | 'admin' = 'student'): Promise<AuthTokens> {
     const cleanEmail = email.toLowerCase().trim();
-    const assignedRole = this.isAuthorizedAdmin(cleanEmail) ? 'admin' : role === 'admin' && this.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
+    // Role is always assigned server-side; frontend-requested admin role is ignored unless email is in ADMIN_EMAILS
+    const assignedRole = this.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
 
     if (isDbConnected()) {
       const existingUser = await User.findOne({ email: cleanEmail });
@@ -177,92 +181,77 @@ export class AuthService {
     };
   }
 
-  async googleAuth(data: { credential?: string; email?: string; name?: string; avatar?: string; googleId?: string }): Promise<AuthTokens> {
+  /**
+   * Google OAuth authentication.
+   *
+   * SECURITY: Only accepts a verified Google ID token (`credential` field).
+   * Raw email/name/googleId without a credential are REJECTED to prevent identity spoofing.
+   * The credential is verified using Google's public keys via verifyIdToken().
+   */
+  async googleAuth(data: { credential?: string }): Promise<AuthTokens> {
+    if (!data.credential) {
+      throw new Error('A valid Google credential token is required for Google Sign-In.');
+    }
+
+    if (!env.GOOGLE_CLIENT_ID) {
+      throw new Error('Google OAuth is not configured on this server. Please contact the administrator.');
+    }
+
     let verifiedEmail = '';
     let verifiedName = '';
     let verifiedPicture = '';
     let verifiedGoogleId = '';
 
-    // 1. Verify Google credential ID token cryptographically
-    if (data.credential) {
-      try {
-        if (env.GOOGLE_CLIENT_ID) {
-          const ticket = await this.googleClient.verifyIdToken({
-            idToken: data.credential,
-            audience: env.GOOGLE_CLIENT_ID,
-          });
-          const payload = ticket.getPayload();
-          if (payload && payload.email) {
-            verifiedEmail = payload.email;
-            verifiedName = payload.name || payload.given_name || payload.email.split('@')[0];
-            verifiedPicture = payload.picture || '';
-            verifiedGoogleId = payload.sub;
-          }
-        }
-      } catch (err: any) {
-        logger.warn(`Google verifyIdToken notice: ${err.message}. Parsing verified JWT claims.`);
+    // Verify Google credential ID token cryptographically using Google's public keys
+    try {
+      const ticket = await this.googleClient.verifyIdToken({
+        idToken: data.credential,
+        audience: env.GOOGLE_CLIENT_ID,
+      });
+      const payload = ticket.getPayload();
+      if (!payload || !payload.email) {
+        throw new Error('Google credential did not contain a valid email address.');
       }
-
-      // Safe decode fallback for token parsing
-      if (!verifiedEmail) {
-        try {
-          const parts = data.credential.split('.');
-          if (parts.length >= 2) {
-            const base64Url = parts[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = Buffer.from(base64, 'base64').toString('utf8');
-            const payload = JSON.parse(jsonPayload);
-            verifiedEmail = payload.email;
-            verifiedName = payload.name || payload.given_name || payload.email?.split('@')[0] || '';
-            verifiedPicture = payload.picture || '';
-            verifiedGoogleId = payload.sub || '';
-          }
-        } catch (err: any) {
-          logger.warn(`Could not parse Google token claims: ${err.message}`);
-        }
-      }
-    }
-
-    // Direct input fallback if passed
-    if (!verifiedEmail && data.email) {
-      verifiedEmail = data.email;
-      verifiedName = data.name || data.email.split('@')[0];
-      verifiedPicture = data.avatar || '';
-      verifiedGoogleId = data.googleId || `google_${data.email.replace(/[^a-zA-Z0-9]/g, '_')}`;
-    }
-
-    if (!verifiedEmail) {
-      throw new Error('Valid Google credential or email address is required.');
+      verifiedEmail = payload.email;
+      verifiedName = payload.name || payload.given_name || payload.email.split('@')[0];
+      verifiedPicture = payload.picture || '';
+      verifiedGoogleId = payload.sub;
+      logger.info(`Google credential verified for: ${verifiedEmail}`);
+    } catch (err: any) {
+      logger.error(`Google verifyIdToken failed: ${err.message}`);
+      throw new Error('Google credential verification failed. Please try signing in again.');
     }
 
     const cleanEmail = verifiedEmail.toLowerCase().trim();
     const finalName = verifiedName.trim() || cleanEmail.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-    const finalGoogleId = verifiedGoogleId || `google_${cleanEmail.replace(/[^a-zA-Z0-9]/g, '_')}`;
+    // Role is always assigned server-side; ADMIN_EMAILS controls admin access
     const assignedRole = this.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
 
     logger.info(`Authenticating verified Google user: ${cleanEmail} (Role: ${assignedRole})`);
 
     if (isDbConnected()) {
-      let user = await User.findOne({ email: cleanEmail });
+      let user = await User.findOne({ $or: [{ googleId: verifiedGoogleId }, { email: cleanEmail }] });
 
       if (user) {
-        if (!user.googleId) user.googleId = finalGoogleId;
-        if (verifiedPicture && (!user.profilePicture || !user.avatar)) {
+        // Update existing user with latest Google profile data
+        if (!user.googleId) user.googleId = verifiedGoogleId;
+        if (verifiedPicture) {
           user.profilePicture = verifiedPicture;
           user.avatar = verifiedPicture;
         }
         user.authProvider = 'google';
         user.lastLoginAt = new Date();
-        // If user is in admin emails list, assign admin
+        // Re-check admin status in case ADMIN_EMAILS was updated
         if (this.isAuthorizedAdmin(cleanEmail)) {
           user.role = 'admin';
         }
         await user.save();
       } else {
+        // Create new user with verified Google identity
         user = await User.create({
           name: finalName,
           email: cleanEmail,
-          googleId: finalGoogleId,
+          googleId: verifiedGoogleId,
           profilePicture: verifiedPicture,
           avatar: verifiedPicture,
           authProvider: 'google',
@@ -271,6 +260,7 @@ export class AuthService {
           isActive: true,
           lastLoginAt: new Date(),
         });
+        logger.info(`New user created via Google OAuth: ${cleanEmail}`);
       }
 
       const token = this.generateToken(user);
@@ -280,17 +270,17 @@ export class AuthService {
       };
     }
 
-    // In-memory DB fallback
+    // In-memory DB fallback (development without MongoDB)
     let foundUser: any = null;
     for (const u of memoryDb.users.values()) {
-      if (u.email.toLowerCase() === cleanEmail) {
+      if (u.email.toLowerCase() === cleanEmail || u.googleId === verifiedGoogleId) {
         foundUser = u;
         break;
       }
     }
 
     if (foundUser) {
-      foundUser.googleId = finalGoogleId;
+      foundUser.googleId = verifiedGoogleId;
       if (verifiedPicture) {
         foundUser.profilePicture = verifiedPicture;
         foundUser.avatar = verifiedPicture;
@@ -307,7 +297,7 @@ export class AuthService {
         id: newId,
         name: finalName,
         email: cleanEmail,
-        googleId: finalGoogleId,
+        googleId: verifiedGoogleId,
         profilePicture: verifiedPicture,
         avatar: verifiedPicture,
         authProvider: 'google',
@@ -318,6 +308,7 @@ export class AuthService {
         createdAt: new Date(),
       };
       memoryDb.users.set(newId, foundUser);
+      logger.info(`New user created via Google OAuth (in-memory): ${cleanEmail}`);
     }
 
     const token = this.generateToken(foundUser);

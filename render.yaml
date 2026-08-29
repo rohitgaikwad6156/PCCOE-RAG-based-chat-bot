@@ -5,17 +5,34 @@ services:
     rootDir: backend
     buildCommand: npm install && npm run build
     startCommand: npm start
+    healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
+
+      # Frontend origin (Vercel deployment URL)
       - key: FRONTEND_URL
         sync: false
+
+      # MongoDB Atlas
       - key: MONGODB_URI
         sync: false
+
+      # JWT Authentication
       - key: JWT_SECRET
         generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+
+      # Google OAuth 2.0
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+
+      # LLM Providers (openai | gemini | openrouter)
       - key: LLM_PROVIDER
         value: openai
       - key: OPENAI_API_KEY
@@ -26,13 +43,30 @@ services:
         sync: false
       - key: LLM_MODEL
         value: gpt-4o-mini
+
+      # Embedding Provider
       - key: EMBEDDING_PROVIDER
         value: openai
       - key: EMBEDDING_MODEL
         value: text-embedding-3-small
+
+      # Vector Database (Pinecone)
       - key: VECTOR_STORE_PROVIDER
         value: pinecone
       - key: PINECONE_API_KEY
         sync: false
       - key: PINECONE_INDEX
         value: pccoe-rag
+      - key: PINECONE_ENVIRONMENT
+        sync: false
+
+      # PCCOE Admin Configuration
+      # Comma-separated list of Google emails that will receive admin role
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_EMAILS
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_NAME
+        sync: false

@@ -1,7 +1,12 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
+// Load backend/.env first (primary)
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
+// Also load root .env as fallback for shared vars (GOOGLE_CLIENT_ID, etc.)
+// Variables already set by backend/.env take precedence (dotenv.config won't override)
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 export const env = {
   NODE_ENV: process.env.NODE_ENV || 'development',
@@ -10,7 +15,7 @@ export const env = {
   MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/pccoe-college-rag-chatbot',
   JWT_SECRET: process.env.JWT_SECRET || 'pccoe_rag_default_jwt_secret_key_change_in_prod',
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
-  
+
   // LLM Config
   LLM_PROVIDER: (process.env.LLM_PROVIDER || 'gemini').toLowerCase(),
   GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',

@@ -1,0 +1,129 @@
+# Pimpri Chinchwad College of Engineering (PCCOE), Pune
+**An Autonomous Institute | Affiliated to Savitribai Phule Pune University (SPPU) | Approved by AICTE | NAAC 'A++' Accredited**
+**DTE Institute Code: 6175 | Location: Sector 26, Pradhikaran, Nigdi, Pune - 411044, Maharashtra**
+
+---
+
+## 1. Autonomous Academic Calendar & Examination Rules (2026-2027)
+1.1 Examination Structure:
+- PCCOE operates under the Autonomous Academic Evaluation Framework. Each course is evaluated through:
+  1. Continuous Internal Evaluation (CIE / In-Sem): 40 Marks (comprising Quizzes, Assignments, Mid-Sem Test, and Course Projects).
+  2. End-Semester Examination (ESE): 60 Marks (Comprehensive Theory Paper conducted by the Autonomous Examination Cell).
+- Winter End-Semester Examination (ESE) Schedule: December 08, 2026 to December 22, 2026.
+- Practical and Oral Examinations: November 28, 2026 to December 05, 2026.
+- In-Sem Examinations (ISE): October 14, 2026 to October 18, 2026.
+- Minimum Attendance: Mandatory 75% attendance in theory lectures and 80% in practical sessions to be eligible to appear for ESE.
+- Passing Standard: Minimum 40% in In-Sem + End-Sem combined, with at least 40% separately in End-Sem Examination.
+
+1.2 Spring Semester Schedule:
+- Commencement of classes: January 11, 2027.
+- Mid-Sem Exams: March 10, 2027 to March 15, 2027.
+- Spring End-Semester Exams: May 12, 2027 to May 26, 2027.
+
+---
+
+## 2. B.Tech & MCA Admission Process, DTE Code 6175 & MHT-CET / JEE Cutoff Archives (2023, 2024, 2025, 2026)
+2.1 First Year B.Tech Admissions:
+- Conducted strictly via Centralized Admission Process (CAP) rounds governed by the State CET Cell, Maharashtra.
+- Eligibility: Passed 10+2 with Physics and Mathematics as compulsory subjects along with Chemistry/Biology/Biotechnology/Technical Vocational with at least 45% marks (40% for Reserved Category/EWS/PWD candidates belonging to Maharashtra).
+- PCCOE DTE Institute Code: **6175**.
+
+2.2 Historical & Expected Cutoff Trends (2023, 2024, 2025, 2026 Admissions):
+- **Computer Engineering (DTE Code: 617524510)**:
+  - 2026 Expected Cutoff: MHT-CET **99.15 Percentile** | JEE Main **97.80 Percentile**
+  - 2025 Cutoff (CAP Round 1): MHT-CET **99.08 Percentile** (GOPENS Rank 1,845) | JEE Main **97.65 Percentile**
+  - 2024 Cutoff (CAP Round 1): MHT-CET **98.92 Percentile** (GOPENS Rank 2,010) | JEE Main **97.40 Percentile**
+  - 2023 Cutoff (CAP Round 1): MHT-CET **98.75 Percentile** (GOPENS Rank 2,230) | JEE Main **97.10 Percentile**
+  - TFWS (Tuition Fee Waiver Scheme): **99.35+ Percentile** across all years.
+
+- **Information Technology (IT - DTE Code: 617524610)**:
+  - 2026 Expected: MHT-CET **98.65 Percentile** | JEE Main **96.50 Percentile**
+  - 2025 Cutoff: MHT-CET **98.54 Percentile** | JEE Main **96.30 Percentile**
+  - 2024 Cutoff: MHT-CET **98.32 Percentile** | JEE Main **96.00 Percentile**
+  - 2023 Cutoff: MHT-CET **98.15 Percentile** | JEE Main **95.80 Percentile**
+
+- **Artificial Intelligence & Machine Learning (AI&ML - DTE Code: 617526310)**:
+  - 2026 Expected: MHT-CET **98.20 Percentile** | JEE Main **95.80 Percentile**
+  - 2025 Cutoff: MHT-CET **98.05 Percentile** | JEE Main **95.50 Percentile**
+  - 2024 Cutoff: MHT-CET **97.85 Percentile** | JEE Main **95.20 Percentile**
+  - 2023 Cutoff: MHT-CET **97.60 Percentile** | JEE Main **94.90 Percentile**
+
+- **Electronics & Telecommunication (E&TC - DTE Code: 617537210)**:
+  - 2026 Expected: MHT-CET **96.40 Percentile** | JEE Main **93.50 Percentile**
+  - 2025 Cutoff: MHT-CET **96.10 Percentile** | JEE Main **93.20 Percentile**
+  - 2024 Cutoff: MHT-CET **95.80 Percentile** | JEE Main **92.80 Percentile**
+  - 2023 Cutoff: MHT-CET **95.40 Percentile** | JEE Main **92.30 Percentile**
+
+- **Mechanical Engineering (DTE Code: 617561210)**:
+  - 2026 Expected: MHT-CET **91.50 Percentile** | JEE Main **88.00 Percentile**
+  - 2024-2025 Cutoffs: MHT-CET **90.80 - 91.20 Percentile** | JEE Main **87.50 Percentile**
+  - 2023 Cutoff: MHT-CET **90.20 Percentile** | JEE Main **86.90 Percentile**
+
+- **Civil Engineering (DTE Code: 617519110)**:
+  - 2026 Expected: MHT-CET **84.80 Percentile** | JEE Main **80.00 Percentile**
+  - 2023-2025 Cutoffs: MHT-CET **83.50 - 84.20 Percentile** | JEE Main **79.00 - 79.50 Percentile**
+
+2.3 Mandatory Documents for Physical Verification during Admission Reporting:
+1. MHT-CET / JEE Main Scorecard and Admit Card.
+2. 10th and 12th Standard Marksheets and Passing Certificates.
+3. Indian Nationality & Domicile Certificate / Birth Certificate.
+4. Caste Certificate, Caste Validity, and Non-Creamy Layer (NCL) Certificate valid up to March 31, 2027 (for OBC/VJ/NT/SBC categories).
+5. EWS Eligibility Certificate in Government prescribed format (if applying under EWS quota).
+6. Leaving Certificate (LC) / Transfer Certificate (TC) and Migration Certificate.
+7. Income Certificate issued by competent Tahsildar authority.
+
+---
+
+## 3. Training & Placement Cell (T&P) Statistics & Recruiters
+- PCCOE boasts one of the most prominent placement cells in Pune and Western India.
+- Highest Placement Package: **Rs. 61.0 LPA** (International / Product Giant).
+- Average Salary Package across all engineering branches: **Rs. 8.4 LPA**.
+- Over 650+ Global Enterprises & Corporates visit PCCOE annually for campus recruitment.
+- Key Marquee Recruiting Partners:
+  - IT / Software / Fintech: Microsoft, Adobe, Barclays, Credit Suisse, Veritas, Amazon, Cognizant, TCS (Digital & Ninja), Infosys, Capgemini, LTI Mindtree, Persistent Systems, Zensar.
+  - Core Engineering / Automotive: Dassault Systèmes, ZF Group, KPIT Technologies, Tata Motors, Cummins India, Bosch, Mercedes-Benz R&D, Schindler, Godrej.
+- Internship Opportunities: Mandatory 6-month capstone industry internship during the 8th semester for final-year students.
+
+---
+
+## 4. Scholarships, Financial Schemes & MahaDBT Portals
+4.1 Government Schemes (via MahaDBT Portal):
+- **EBC (Rajarshi Chhatrapati Shahu Maharaj Shikshan Shulk Shishyavrutti Yojna)**:
+  - 50% Tuition Fee waiver and 50% Exam Fee waiver for Open/General category students with family annual income up to Rs. 8,00,000.
+- **OBC / EWS Freeship & Scholarship**: 50% Tuition Fee waiver.
+- **SC / ST / VJNT / SBC Category**: 100% Tuition Fee waiver as per Social Welfare Department Maharashtra rules.
+- **TFWS (Tuition Fee Waiver Scheme)**: 100% Tuition Fee waiver for merit students allotted under TFWS seats through CAP rounds.
+
+4.2 College Institutional Aid & Awards:
+- Best Outgoing Student Award & Meritorious Student Cash Prizes awarded during the Annual Gathering 'Swarang'.
+
+---
+
+## 5. PCCOE Nigdi Campus Hostels & Mess Facilities
+5.1 Location & Accommodation:
+- Situated adjacent to the campus at Sector 26, Pradhikaran, Nigdi, Pune.
+- Separate dedicated hostel buildings for Boys and Girls with biometric access and 24/7 CCTV surveillance.
+- Annual Hostel Fee Structure:
+  - Double Occupancy Room: Rs. 95,000 per academic year.
+  - Triple Occupancy Room: Rs. 75,000 per academic year.
+  - Mess Charges (Pure Veg & Hygienic Multi-cuisine meal plans): Rs. 38,000 per academic year.
+  - Caution Money Deposit (Refundable): Rs. 5,000.
+5.2 Hostel Rules & Timings:
+- Evening Curfew Time: 9:30 PM on weekdays and 10:00 PM on weekends.
+- Night out permission must be applied via the PCCOE ERP/Student Portal and requires OTP verification from parents.
+
+---
+
+## 6. Dr. APJ Abdul Kalam Central Library
+- Working Hours: Monday to Saturday from 8:00 AM to 10:00 PM (Extended till 12:00 Midnight during End-Sem exams).
+- Resources: Over 60,000+ volumes, 15,000+ titles, international IEEE Xplore, ScienceDirect, and ASME digital e-journal subscriptions.
+- Book Bank facility available for all first-year students and reserved category students.
+
+---
+
+## 7. Technical Teams & Student Co-curricular Clubs
+- **Team Kratos Racing (TKR)**: Acclaimed Formula Student combustion and electric race-car engineering team of PCCOE.
+- **Team Redline Racing**: National champion Baja / ATV off-road vehicle design team.
+- **Robocon PCCOE**: National Robocon robotics fabrication and competition team.
+- **Professional Chapters**: PCCOE IEEE Student Branch, ACM Student Chapter, GDSC PCCOE (Google Developer Student Clubs), CSI, SAE India Collegiate Club.
+- **Cultural & Arts**: Art Circle, Rotaract Club of PCCOE, Natyasourabh drama club, and Annual Cultural Fest **'Swarang'** & Technical Fest **'Technovate'**.

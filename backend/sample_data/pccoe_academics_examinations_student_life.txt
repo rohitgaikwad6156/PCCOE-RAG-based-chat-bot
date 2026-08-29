@@ -1,0 +1,236 @@
+# PCCOE Academic System, Examinations & Student Life
+# Source: www.pccoepune.com (Official PCCOE Website)
+# DTE Code: 6175 | Autonomous Institute | Affiliated to SPPU Pune
+
+---
+
+## PCCOE AUTONOMOUS ACADEMIC SYSTEM
+
+### Autonomous Status:
+- PCCOE is an Autonomous Institute under Savitribai Phule Pune University (SPPU), Pune
+- As an autonomous institute, PCCOE has its own:
+  - Examination patterns and schedules
+  - Curriculum design and syllabus
+  - Grading system
+  - Academic calendar
+- ERP Student Login: learner.pceterp.in
+- ERP Teacher Login: pceterp.in
+
+---
+
+## EXAMINATION STRUCTURE (AUTONOMOUS)
+
+### Evaluation Pattern:
+Each course is evaluated through two components:
+
+1. **Continuous Internal Evaluation (CIE) / In-Semester Exam (ISE)**:
+   - Total Marks: 40
+   - Components: Quizzes, Assignments, Mid-Semester Test, Course Projects, Lab Performance
+   
+2. **End-Semester Examination (ESE)**:
+   - Total Marks: 60
+   - Comprehensive Theory Paper conducted by the Autonomous Examination Cell
+
+### Passing Standards:
+- Minimum 40% in In-Sem + End-Sem COMBINED
+- Minimum 40% SEPARATELY in End-Semester Examination (ESE)
+- Both conditions must be met to pass the subject
+
+---
+
+## ATTENDANCE REQUIREMENTS
+
+- **Theory Lectures**: Minimum **75% attendance** required to be eligible to appear for End-Semester Examination
+- **Practical Sessions**: Minimum **80% attendance** required
+- Students with shortage of attendance may be detained from appearing in exams
+
+---
+
+## ACADEMIC CALENDAR (2026-2027 APPROXIMATE)
+
+### Odd Semester (Academic Year 2026-27):
+- ISE (In-Semester Exam): October 14, 2026 to October 18, 2026
+- Practical and Oral Examinations: November 28, 2026 to December 05, 2026
+- Winter End-Semester Examination (ESE): December 08, 2026 to December 22, 2026
+
+### Even Semester (Spring 2027):
+- Commencement of Classes: January 11, 2027
+- Mid-Semester Exams: March 10, 2027 to March 15, 2027
+- Spring End-Semester Exams: May 12, 2027 to May 26, 2027
+
+Note: Official academic calendar is available at: pccoepune.com/academic-calendar.php
+
+---
+
+## EXAM CELL
+
+- Official Page: pccoepune.com/examinations-cell-home.php
+- Responsibilities: Scheduling examinations, hall ticket distribution, result declaration, revaluation, back papers
+- PCCOE has a dedicated Examination Cell that manages all autonomous examinations
+
+---
+
+## DR. APJ ABDUL KALAM CENTRAL LIBRARY
+
+### Library Overview:
+- Name: Dr. APJ Abdul Kalam Central Library
+- Location: Main campus, PCCOE, Sector 26, Pradhikaran, Nigdi, Pune
+
+### Working Hours:
+- Regular Days: Monday to Saturday from **8:00 AM to 10:00 PM**
+- Extended Hours during End-Sem Exams: Till **12:00 Midnight (12 AM)**
+
+### Library Resources:
+- Physical Books: Over **60,000+ volumes**
+- Titles: Over **15,000+ titles**
+- International Digital Subscriptions:
+  - IEEE Xplore (digital library of engineering research)
+  - ScienceDirect (Elsevier journals)
+  - ASME Digital Library
+  - Additional e-journal subscriptions
+
+### Special Facilities:
+- **Book Bank**: Available for all first-year students and reserved category students
+- Reading rooms with quiet study spaces
+- Computer terminals with internet access
+- OPAC (Online Public Access Catalog) for book search
+- Reference section with encyclopedias and dictionaries
+
+### Library Website: pccoepune.com/library.php
+
+---
+
+## HOSTELS AT PCCOE CAMPUS
+
+### Location:
+- Situated adjacent to the main campus at Sector 26, Pradhikaran, Nigdi, Pune
+- Near Akurdi Railway Station
+
+### Security Features:
+- Biometric access control
+- 24/7 CCTV surveillance
+- Security guards
+- Gated entry
+
+### Hostel Buildings:
+- Separate dedicated hostel buildings for Boys and Girls
+
+### Annual Fee Structure:
+- **Double Occupancy Room**: Rs. 95,000 per academic year
+- **Triple Occupancy Room**: Rs. 75,000 per academic year
+- **Mess Charges** (Pure Veg & Hygienic Multi-cuisine meal plans): Rs. 38,000 per academic year
+- **Caution Money Deposit** (Refundable): Rs. 5,000
+
+### Hostel Rules & Timings:
+- **Weekday Curfew**: 9:30 PM
+- **Weekend Curfew**: 10:00 PM
+- Night-out permission: Must be applied via PCCOE ERP/Student Portal with OTP verification from parents
+- Biometric attendance tracking for hostel entry/exit
+
+### Amenities:
+- Clean and hygienic mess (dining hall)
+- Multi-cuisine pure vegetarian meal plans
+- Common rooms / recreation areas
+- Study rooms in hostel buildings
+- Wi-Fi connectivity
+- Laundry facilities
+
+---
+
+## CAMPUS FACILITIES
+
+### Sports & Athletics:
+- Games and Sports facilities: Basketball court, Cricket ground, Badminton, Football, Table Tennis
+- Annual sports competitions
+- Inter-college sports participation
+
+### Canteen:
+- College canteen on campus providing affordable meals and snacks
+
+### Health & Wellness:
+- Medical Room / First Aid facility
+- Friends Cubicle: Student counseling and mental health support center
+
+### Computing & Internet:
+- Computer labs with high-speed internet
+- Wi-Fi coverage across campus
+- ERP system for academics, attendance, assignments
+
+---
+
+## STUDENT GOVERNANCE
+
+### Student Council:
+- Democratically elected student representatives
+- Represents student interests to college administration
+- Organizes student activities and welfare programs
+- Information: pccoepune.com/student-council-data.php
+
+### Code of Conduct:
+- Students must adhere to Code of Conduct (pdf/COC/Code-of-Conduct-for-Students.pdf)
+- Available on official PCCOE website
+
+---
+
+## ANTI-RAGGING POLICY
+
+- PCCOE has a ZERO tolerance policy for ragging
+- Anti-Ragging Committee actively monitors campus and hostels
+- Ragging is a punishable offense under UGC regulations
+- Students can report ragging at: antiragging.in
+- Anti-Ragging Cell: pccoepune.com/anti-ragging-committee.php
+
+---
+
+## GOVERNANCE STRUCTURE
+
+### Committees at PCCOE:
+- **Statutory Committees**: pccoepune.com/pccoeadmin.php
+- **Non-Statutory Committees**: Including Internal Complaint Committee (ICC)
+- **Governing Policies**: pccoepune.com/policies-for-academic-and-admin-staff.php
+- **Grievance Redressal Committee**: For student grievances
+- **Equal Opportunity Cell**: For differently-abled and minority students
+- **PCCOE Administration**: pccoepune.com/organization-chart.php
+
+---
+
+## SAWANGADI PROGRAM
+
+A special program for students to develop overall personality, communication, and life skills. Details available via pdf/Sawangadi-Program.pdf
+
+---
+
+## ISR (INSTITUTIONAL SOCIAL RESPONSIBILITY)
+
+PCCOE's ISR activities include:
+- वाचन संकल्प महाराष्ट्राचा उपक्रम (Vachan Sankalp initiative)
+- Rural school digital literacy drives
+- Community development projects
+- Environmental awareness programs
+- Blood donation camps
+
+---
+
+## RULES & REGULATIONS
+
+- Detailed rules and regulations for students available at:
+  pccoepune.com/rules-and-regulations.php
+- Code of Conduct for Students available as PDF on official website
+- Social Media Guidelines for students and staff available on official website
+
+---
+
+## ANNUAL MAGAZINE
+
+- Annual Magazine 2025-26: "AIgnite" 
+- Available on official PCCOE website
+- Features student achievements, events, research, and campus life
+
+---
+
+## ERP SYSTEM
+
+PCCOE uses an integrated ERP (Enterprise Resource Planning) system:
+- **Student Login Portal**: learner.pceterp.in
+- **Teacher Login Portal**: pceterp.in
+- Features: Attendance tracking, assignment submission, timetable, exam results, hostel applications, night-out permissions

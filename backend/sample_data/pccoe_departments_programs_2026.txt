@@ -1,0 +1,216 @@
+# PCCOE - All Departments, Programs & Courses
+# Source: www.pccoepune.com/pccoe-departments.php (Official PCCOE Website)
+# DTE Code: 6175 | Autonomous Institute | Affiliated to SPPU Pune
+
+---
+
+## UNDERGRADUATE PROGRAMS (B.Tech / B.E.)
+
+### 1. Computer Engineering
+- Degree: B.Tech (Computer Engineering)
+- Duration: 4 years
+- Department Website: computer.pccoepune.com
+- NBA Accredited: Yes (till 31st December 2028)
+- Description: One of the most sought-after departments at PCCOE. Focuses on software development, algorithms, data structures, operating systems, databases, computer networks, and emerging technologies including AI, cloud computing, and cybersecurity.
+- Student Association: CESA (Computer Engineering Students Association)
+- Key Labs: Programming Lab, Software Engineering Lab, AI/ML Lab, Computer Networks Lab, Database Lab
+- M.Tech Program: M.Tech Computer Engineering available
+- Ph.D.: Ph.D. Computer Engineering available
+- DTE Program Code: 617524510
+
+### 2. Information Technology (IT)
+- Degree: B.Tech (Information Technology)
+- Duration: 4 years
+- Department Website: it.pccoepune.com
+- NBA Accredited: Yes (till 31st December 2028)
+- Description: Focuses on software engineering, web technologies, database management, networking, cybersecurity, data science, and enterprise applications.
+- Student Association: ITSA (Information Technology Students Association)
+- Flagship Event: INSPIRIA (annual national technical symposium)
+- Key Labs: Web Technology Lab, Network Security Lab, IoT Lab, Cloud Computing Lab, Data Analytics Lab
+- M.Tech Program: M.Tech (AI & DS) available
+- DTE Program Code: 617524610
+
+### 3. Electronics & Telecommunication Engineering (ENTC / E&TC)
+- Degree: B.Tech (Electronics & Telecommunication Engineering)
+- Duration: 4 years
+- Department Website: entc.pccoepune.com
+- NBA Accredited: Yes (till 31st December 2028)
+- Description: Covers analog/digital electronics, communication systems, embedded systems, VLSI design, signal processing, microcontrollers, IoT, and wireless communication.
+- Student Association: ETSA (Electronics & Telecommunication Students Association)
+- Key Labs: Analog Electronics Lab, Digital Electronics Lab, Embedded Systems Lab, VLSI Lab, Microwave Lab, Communication Lab
+- M.Tech Program: M.Tech (E&TC) - VLSI Engineering available
+- Ph.D.: Ph.D. Electronics & Telecommunication Engineering available
+- DTE Program Code: 617537210
+
+### 4. Mechanical Engineering
+- Degree: B.Tech (Mechanical Engineering)
+- Duration: 4 years
+- Department Website: mechanical.pccoepune.com
+- NBA Accredited: Yes (till 31st December 2028)
+- Description: Covers thermodynamics, fluid mechanics, machine design, manufacturing processes, robotics, automotive engineering, and CAD/CAM.
+- Student Association: MESA (Mechanical Engineering Students Association)
+- Key Labs: Fluid Mechanics Lab, Heat Transfer Lab, CAD/CAM Lab, Metrology Lab, Manufacturing Lab, Dynamics of Machinery Lab
+- Motorsports Teams: Team Red Baron (SAE Baja ATV), Team Kratos Racing Electric (Formula Student), Team Solarium, Team Ambush, Team Automatons, Team Maverick India, Team Anantam
+- M.Tech Programs: M.Tech (Mechanical) - Design Engineering; M.Tech (Mechanical) - Computational Mechanics
+- Ph.D.: Ph.D. Mechanical Engineering available
+- DTE Program Code: 617561210
+
+### 5. Civil Engineering
+- Degree: B.Tech (Civil Engineering)
+- Duration: 4 years
+- Department Website: civil.pccoepune.com
+- NBA Accredited: Yes (till 31st December 2028)
+- Description: Covers structural engineering, geotechnical engineering, transportation engineering, environmental engineering, surveying, GIS, and construction management.
+- Student Association: CESA-Civil (Civil Engineering Students Association)
+- Key Labs: Fluid Mechanics Lab, Soil Mechanics Lab, Concrete Technology Lab, Survey Lab, Transportation Lab, Environmental Engineering Lab
+- M.Tech Program: M.Tech (Civil) - Construction & Management
+- Ph.D.: Ph.D. Civil Engineering available
+- DTE Program Code: 617519110
+
+### 6. Computer Science & Engineering (Artificial Intelligence & Machine Learning) - CSE (AI-ML)
+- Degree: B.Tech - Computer Science & Engineering (AI-ML)
+- Duration: 4 years
+- Department Website: aiml.pccoepune.com
+- Description: Focuses on machine learning algorithms, deep learning, neural networks, natural language processing, computer vision, data science, and AI applications in industry.
+- Key Labs: AI/ML Lab, GPU Computing Lab, Data Science Lab, Computer Vision Lab, NLP Lab
+
+### 7. Computer Engineering (Regional)
+- Degree: B.Tech (Computer Engineering - Regional)
+- Duration: 4 years
+- Department Website: compregional.pccoepune.com
+- Description: Computer Engineering program with instruction in regional (Marathi/Hindi) medium alongside technical English
+
+### 8. Electronics Engineering (VLSI Design and Technology)
+- Degree: B.Tech - Electronics Engineering (VLSI Design and Technology)
+- Duration: 4 years
+- Department Website: pccoepune.com/VLSI/
+- Description: Specialized program focusing on VLSI circuit design, semiconductor technology, chip design, FPGA programming, and embedded systems for semiconductor industry.
+- Key Labs: VLSI Design Lab, FPGA Lab, Cadence/Synopsys Software Lab
+
+### 9. Civil Engineering (Regional)
+- Degree: B.Tech (Civil Engineering - Regional)
+- Duration: 4 years
+- Department Website: pccoepune.com/civilregional/
+- Description: Civil Engineering with instruction available in regional medium
+
+### 10. Multidisciplinary Studies
+- Program: Multidisciplinary Studies
+- Duration: 4 years
+- Department Website: pccoepune.com/MDM/
+- Description: An interdisciplinary program combining multiple engineering and science streams, allowing students to explore diverse technical domains.
+
+---
+
+## POSTGRADUATE PROGRAMS (M.Tech)
+
+### 1. M.Tech Computer Engineering
+- Duration: 2 years
+- Specialization: Computer Engineering
+- Department Website: computer.pccoepune.com/m-tech-about
+- NBA Accredited: Yes (till 30th June 2028)
+- Focus: Advanced algorithms, software architecture, cloud computing, machine learning, and research
+
+### 2. M.Tech (E&TC) - VLSI Engineering
+- Duration: 2 years
+- Specialization: VLSI and Embedded Systems
+- Department Website: entc.pccoepune.com/mtechacademics.php
+- NBA Accredited: Yes (till 30th June 2028)
+- Focus: VLSI design, embedded systems, semiconductor technology, system-on-chip design
+
+### 3. M.Tech (Mechanical) - Design Engineering
+- Duration: 2 years
+- Specialization: Mechanical Engineering Design
+- Department Website: mechanical.pccoepune.com/pg/me-design.php
+- NBA Accredited: Yes (till 30th June 2028)
+- Focus: Advanced machine design, CAD/CAM, finite element analysis, product design
+
+### 4. M.Tech (Mechanical) - Computational Mechanics
+- Duration: 2 years
+- Specialization: Computational Mechanics (Heat Power)
+- Department Website: mechanical.pccoepune.com/pg/me-computational.php
+- Focus: CFD, heat transfer, thermal analysis, computational fluid dynamics
+
+### 5. M.Tech (AI & DS)
+- Duration: 2 years
+- Specialization: Artificial Intelligence & Data Science
+- Department Website: it.pccoepune.com/m-tech-it
+- NBA Accredited: Yes (till 30th June 2028)
+- Focus: Machine learning, deep learning, big data analytics, NLP, AI systems
+
+### 6. M.Tech (Civil) - Construction & Management
+- Duration: 2 years
+- Specialization: Construction Management
+- Department Website: civil.pccoepune.com/pages/academics/mtech.php
+- NBA Accredited: Yes (till 30th June 2028)
+- Focus: Project management, construction engineering, structural analysis, building technology
+
+---
+
+## MCA PROGRAM
+
+### Master of Computer Applications (MCA)
+- Duration: 2 years
+- Department Website: mca.pccoepune.com
+- Description: Advanced computer applications program covering software development, data science, enterprise computing, and IT management. FY MCA IL Notification 2026-27 available on website.
+
+---
+
+## Ph.D. PROGRAMS (Doctoral Research)
+
+### 1. Ph.D. Mechanical Engineering
+- Department Website: mechanical.pccoepune.com/phd/phd_home.php
+- Research Centre: PCCOE has a recognized Ph.D. Research Centre in Mechanical Engineering
+- Focus: Advanced research in thermal engineering, design, manufacturing, robotics
+
+### 2. Ph.D. Computer Engineering
+- Department Website: computer.pccoepune.com/phd-Coordinators-desk
+- Research Centre: PCCOE has a recognized Ph.D. Research Centre in Computer Engineering
+- Focus: AI/ML, computer networks, cybersecurity, software engineering research
+
+### 3. Ph.D. Electronics & Telecommunication Engineering
+- Department Website: entc.pccoepune.com/phd-home.php
+- Research Centre: PCCOE has a recognized Ph.D. Research Centre in E&TC
+- Focus: VLSI, embedded systems, signal processing, wireless communications research
+
+### 4. Ph.D. Civil Engineering
+- Department Website: civil.pccoepune.com/pages/academics/phd-coordinator-desk.php
+- Focus: Structural engineering, geotechnical research, construction management
+
+---
+
+## B.VOC PROGRAM
+
+### Bachelor of Vocation (B.Voc.)
+- Department Website: pccoepune.com/bvoc/
+- Duration: 3 years
+- Description: Vocational program designed to provide practical, skill-based education with industry certifications, aligned with NSDC skill standards.
+
+---
+
+## B.TECH FOR WORKING PROFESSIONALS
+
+### B.Tech for Working Professionals
+- Website: pccoepune.com/pccoe-btech-working-professionals.php
+- Duration: 3 years (lateral entry)
+- Description: Special B.Tech program designed for working professionals to upskill and earn a formal engineering degree while continuing employment. Offered in weekend/evening format.
+
+---
+
+## DEPARTMENT HEADS (HOD) - GENERAL INFO
+
+PCCOE has Heads of Department for each engineering branch. For current HOD details, visit the respective department websites:
+- Computer Engineering: computer.pccoepune.com
+- Information Technology: it.pccoepune.com
+- Electronics & Telecommunication: entc.pccoepune.com
+- Mechanical Engineering: mechanical.pccoepune.com
+- Civil Engineering: civil.pccoepune.com
+- AI-ML Department: aiml.pccoepune.com
+- MCA Department: mca.pccoepune.com
+
+---
+
+## PROGRAM ACCREDITATION STATUS
+
+Five UG programmes - Computer Engineering, Civil Engineering, Electronics and Telecommunication Engineering, Information Technology and Mechanical Engineering - are accredited by NBA till 31st December 2028.
+
+All 4 PG Programs (Computer Engineering, VLSI and Embedded Systems, Mechanical Engineering Design, and Construction Management) received 3 years of NBA ACCREDITATION till 30th June 2028.

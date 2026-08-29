@@ -1,0 +1,216 @@
+# PCCOE Collegiate Clubs & Motorsports Teams
+# Source: www.pccoepune.com/pccoe-collegiate-clubs.php (Official PCCOE Website)
+# Autonomous Institute | DTE Code: 6175 | Sector 26, Pradhikaran, Nigdi, Pune - 411044
+
+---
+
+## OVERVIEW OF PCCOE COLLEGIATE CLUBS
+
+Various Collegiate Clubs are available at Institute level as a platform for students to showcase technical, leadership and organizational skills.
+
+### Main Objectives of Collegiate Clubs:
+- To enhance the technical competency of students through project-based learning
+- To improve the employability of students by developing necessary skills like leadership, communication, project management, and administration
+- To develop a healthy learning environment wherein students can work as a part of a team following professional ethics and responsibilities
+
+### PCCOE Collegiate Clubs Corporate Structure (Faculty Leadership):
+- **Chairman of Collegiate Clubs**: Dr. G. N. Kulkarni (Director, PCCOE)
+- **Vice Chairman of Collegiate Clubs**: Dr. P. A. Deshmukh (Dean SDW)
+- **Secretary of Collegiate Clubs**: Mr. Amit Panchwadkar (Associate Dean SDW)
+
+---
+
+## MOTOR SPORTS TEAMS
+
+### 1. Team Red Baron
+- **Team Type**: Motor Sports Team (SAE Baja / ATV)
+- **Faculty Secretary**: Mr. U.I. Shaikh (Mechanical Department)
+- **Faculty Co-Secretary**: Mr. Rohit Tate (IT Department)
+- **Team Website**: teamredbaron.com
+- **About Team**: Team Red Baron is a group of 30 undergraduate students from Pimpri Chinchwad College of Engineering. They design, manufacture and test All-Terrain Vehicles (ATV) and participate in National and International SAE Baja competitions.
+- **Vision**: To Innovate and build robust off-road vehicles and in that process, give the students a platform to develop and hone the skills required to sculpt their future.
+- **Mission**: To build the ideal ATV that can endure and survive the toughest conditions.
+- **Competitions**: SAE Baja India, International SAE Baja competitions
+- **Notable Members**: Managing Director: Om Kangle, Co-Managing Director: Tanmay Chaskar; Faculty Secretary: Ummid I. Shaikh (Mechanical Dept)
+
+### 2. Team Kratos Racing Electric
+- **Team Type**: Motor Sports Team (Formula Student - Electric)
+- **Faculty Secretary**: Dr. S.R. Wankhede (Mechanical Department)
+- **Faculty Co-Secretary**: Dr. M.M. Narkhede (ENTC Department)
+- **About Team**: Team Kratos Racing Electric represents the Formula Student initiative at Pimpri Chinchwad College of Engineering. The team consists of 40 dedicated undergraduate students from diverse disciplines fostering a truly interdisciplinary collaboration.
+- **Vision**: To consistently compete for Podium position in Formula Student Germany.
+- **Objective**: To engineer a vehicle which finishes in the Top 10 of Formula Student Germany.
+- **Competitions**: Formula Student Germany, Formula Bharat, Formula Student India
+- **Notable Members**: Managing Director: Suraj Aher, Co-Managing Director: Ram Gokhale
+- **Also known as**: TKR (Team Kratos Racing)
+
+### 3. Team Solarium
+- **Team Type**: Motor Sports Team (Solar Vehicle)
+- **Faculty Secretary**: Dr. Jaya Goyal (Mechanical Department)
+- **Faculty Co-Secretary**: Dr. Pramod Sonavane (ENTC Department)
+- **Description**: Solar-powered vehicle engineering team participating in solar vehicle competitions
+
+### 4. Team Ambush
+- **Team Type**: Motor Sports Team
+- **Faculty Secretary**: Dr. I.R. Satone (Mechanical Department)
+- **Faculty Co-Secretary**: Mr. Rahul Pitale (Computer Department)
+- **Description**: Engineering team building specialized competition vehicles
+
+### 5. Team Automatons
+- **Team Type**: Motor Sports / Robotics Team
+- **Faculty Secretary**: Dr. S.B. Matekar (Mechanical Department)
+- **Faculty Co-Secretary**: Dr. Varsha Bendre (ENTC Department)
+- **Description**: Robotics and automation team developing autonomous systems and participating in national robotics competitions
+
+### 6. Team Maverick India
+- **Team Type**: Innovation / Disaster Management Team
+- **Faculty Secretary**: Prof. C.R. Ingole (Mechanical Department)
+- **Faculty Co-Secretary**: Mr. Ajjay Ghade (ENTC Department)
+- **Achievement**: SILVER WINNER at NIDAR 2026 in Disaster Management category
+- **Competition**: NIDAR 2026 (National Innovative Disaster Avoidance Robot)
+
+### 7. Team Anantam
+- **Team Type**: Motor Sports / Engineering Team
+- **Faculty Secretary**: Dr. Jayesh Chordiya (Mechanical Department)
+- **Faculty Co-Secretary**: Dr. Ashwini Shinde (ENTC Department)
+- **Description**: Engineering team participating in national level competitions
+
+### 8. Coding Club
+- **Team Type**: Technology / Coding Club
+- **Faculty Secretary**: Mr. Abhishek Raut (Computer Department)
+- **Description**: Coding club focused on competitive programming, hackathons, software development, and technical skill building for students across all departments
+- **Activities**: Competitive programming contests, coding bootcamps, hackathons, algorithm workshops, open-source contributions
+
+---
+
+## INFORMATION TECHNOLOGY STUDENTS ASSOCIATION (ITSA)
+
+### Overview:
+ITSA (Information Technology Students Association) is the premier departmental student organization of the Department of Information Technology at PCCOE Pune. ITSA bridges the gap between academic curriculum and current IT industry demands, fostering technical excellence, leadership, and professional teamwork.
+
+### Key Activities of ITSA:
+- **Inspiria**: The flagship annual national-level technical symposium organized by ITSA, featuring algorithmic coding contests, web/app hackathons, technical paper presentations, and UI/UX design challenges
+- **Hands-on Technical Bootcamps**: Periodic workshops on Full-Stack Web Development (MERN/Next.js), Cloud Computing (AWS/GCP), DevOps, Git/GitHub mastery, and Generative AI application development
+- **CodeCombat & Weekly Coding Leagues**: Competitive programming sessions on LeetCode/HackerRank preparing students for technical interviews at Microsoft, Barclays, Adobe, Veritas
+- **Alumni Mentorship & Tech Talks**: Interactive sessions with PCCOE IT alumni from Silicon Valley and Indian tech hubs
+- **Social Impact Initiatives**: Digital literacy drives for rural schools and community development projects
+
+### ITSA Leadership Structure:
+- Head of Department (HOD) - IT: Chief Patron
+- Faculty Coordinator: Senior Assistant Professor, Department of IT
+- Student Positions: President, Vice-President, Secretary, Treasurer, Technical Head, Event Management Head, Public Relations & Social Media Lead, Webmaster
+
+---
+
+## COMPUTER ENGINEERING STUDENTS ASSOCIATION (CESA)
+
+- Established under the Department of Computer Engineering
+- Organizes the annual tech fest 'Anant', 24-hour hackathons
+- Open Source contribution drives and Competitive Programming bootcamps
+- Coordinates student participation in Smart India Hackathon (SIH) and ICPC
+
+---
+
+## ELECTRONICS & TELECOMMUNICATION STUDENTS ASSOCIATION (ETSA)
+
+- Department of E&TC student body
+- Conducts workshops on Embedded Systems, IoT, Robotics, VLSI design with FPGA, and PCB design
+
+---
+
+## MECHANICAL ENGINEERING STUDENTS ASSOCIATION (MESA)
+
+- Department of Mechanical Engineering student forum
+- Organizes CAD/CAM modeling competitions, 3D printing workshops, automobile teardown events
+- Industrial visits to Tata Motors, Cummins India, and Mahindra
+
+---
+
+## CIVIL ENGINEERING STUDENTS ASSOCIATION
+
+- Fosters practical learning in structural engineering, GIS/Remote Sensing
+- Total Station surveying and Green Building concept workshops
+
+---
+
+## PROFESSIONAL TECHNICAL CHAPTERS
+
+### IEEE PCCOE Student Branch
+- Conducts IEEE international conferences, paper presentations, and research symposiums
+- Member of global IEEE network
+
+### ACM PCCOE Student Chapter
+- Focuses on advanced computing research, data science, and high-performance computing
+- Participates in ACM-ICPC International Collegiate Programming Contest
+
+### GDSC PCCOE (Google Developer Student Clubs)
+- Google-supported community for Android, Flutter, Cloud, and Machine Learning development
+- Organizes Google solution challenges and study jams
+
+### SAE India Collegiate Club
+- Society of Automotive Engineers chapter at PCCOE
+- Organizes Baja competitions and automotive workshops
+
+---
+
+## OTHER STUDENT ACTIVITY BODIES
+
+### NSS (National Service Scheme)
+- Social service and community engagement activities
+
+### Games and Sports
+- Athletic facilities and inter-college sports competitions
+
+### VIJIGISHA
+- Entrepreneurship and startup promotion cell
+
+### Art Circle
+- Fine arts, painting, photography student community
+
+### Samvaad Club
+- Debate, public speaking, communication skills club
+
+### Natyasourabh
+- Marathi drama club winning accolades at Firodiya Karandak and Purushottam Karandak
+
+### Rotaract Club of PCCOE
+- Community service and international networking through Rotary International
+
+### Equal Opportunity Cell
+- Promotes inclusive education and equal opportunities for all students
+
+### Friends Cubicle
+- Student counseling and mental health support cell
+
+### Anti-Ragging Committee
+- Zero-tolerance anti-ragging policy enforcement and awareness
+
+### Students Welfare & Grievance Handling Committee
+- Addresses student welfare issues and grievances
+
+---
+
+## ANNUAL CULTURAL EVENTS
+
+- **Swartarang (Swarang)**: Annual Cultural Fest - celebrated annually with celebrity performances, cultural programs, music, dance, drama
+- **Firodiya Karandak**: PCCOE participates in this prestigious Maharashtra-wide drama competition
+- **Purushottam Karandak**: Inter-collegiate drama competition
+
+---
+
+## ROBOCON PCCOE
+
+- National Robocon robotics fabrication and competition team
+- Represents PCCOE at ABU Robocon (national and international robotics competition)
+- Designs autonomous and manual robots for ABU Robocon challenges
+
+---
+
+## NOTES ON TEAM KRATOS RACING (TKR)
+
+Team Kratos Racing Electric (also known as TKR) is one of PCCOE's most celebrated collegiate clubs. The team:
+- Participates in Formula Student Germany (one of the world's most prestigious engineering competitions)
+- Has 40 members from multiple disciplines (multidisciplinary collaboration)
+- Designs, manufactures, and tests electric race cars
+- Competes in Formula Bharat and other national Formula Student events
+- Supported by PCCOE Mechanical and ENTC departments

@@ -6,21 +6,47 @@ import { embeddingService } from '../embeddings/embeddingService';
 import { vectorStore, VectorRecord } from '../vector/vectorStore';
 import { logger } from './logger';
 
+/**
+ * Universal file resolver that safely finds knowledge files in all environments:
+ * - Local development with ts-node
+ * - Production compiled build in dist/
+ * - Monorepo root or backend-only subfolder deployments (e.g. Render)
+ */
+function resolveKnowledgePath(fileName: string): string | null {
+  const candidatePaths = [
+    path.resolve(__dirname, '../../../sample_data', fileName),
+    path.resolve(__dirname, '../../sample_data', fileName),
+    path.resolve(__dirname, '../sample_data', fileName),
+    path.resolve(__dirname, './sample_data', fileName),
+    path.resolve(process.cwd(), 'sample_data', fileName),
+    path.resolve(process.cwd(), '../sample_data', fileName),
+    path.resolve(process.cwd(), 'backend/sample_data', fileName),
+  ];
+
+  for (const candidate of candidatePaths) {
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
 export async function autoIndexDefaultKnowledge(): Promise<void> {
   try {
     logger.info('Auto-indexing official PCCOE Knowledge Bases into Vector Store...');
 
-    const filesToIndex = [
+    const filesToResolve = [
       // ─── EXISTING CORE FILES ────────────────────────────────────────────────
       {
-        path: path.resolve(__dirname, '../../../sample_data/college_sample_knowledge.txt'),
+        fileName: 'college_sample_knowledge.txt',
         docId: 'pccoe-handbook-official-2026',
         title: 'PCCOE Autonomous Academic Regulations & Admission Handbook 2026-2027',
         department: 'All Departments',
         collection: 'Autonomous Academic Regulations',
       },
       {
-        path: path.resolve(__dirname, '../../../sample_data/pccoe_student_clubs_and_associations.txt'),
+        fileName: 'pccoe_student_clubs_and_associations.txt',
         docId: 'pccoe-clubs-associations-2026',
         title: 'PCCOE Departmental Student Associations & Technical Clubs Handbook (ITSA, CESA, TKR)',
         department: 'Information Technology',
@@ -29,49 +55,49 @@ export async function autoIndexDefaultKnowledge(): Promise<void> {
 
       // ─── EXPANDED OFFICIAL PCCOE KNOWLEDGE BASE ─────────────────────────────
       {
-        path: path.resolve(__dirname, '../../../sample_data/pccoe_comprehensive_overview.txt'),
+        fileName: 'pccoe_comprehensive_overview.txt',
         docId: 'pccoe-comprehensive-overview-2026',
         title: 'PCCOE Official Institutional Profile & Comprehensive Overview 2026',
         department: 'All Departments',
         collection: 'Institutional Overview',
       },
       {
-        path: path.resolve(__dirname, '../../../sample_data/pccoe_departments_programs_2026.txt'),
+        fileName: 'pccoe_departments_programs_2026.txt',
         docId: 'pccoe-departments-programs-2026',
         title: 'PCCOE All Departments, Programs & Courses 2026-27',
         department: 'All Departments',
         collection: 'Academic Programs',
       },
       {
-        path: path.resolve(__dirname, '../../../sample_data/pccoe_collegiate_clubs_motorsports.txt'),
+        fileName: 'pccoe_collegiate_clubs_motorsports.txt',
         docId: 'pccoe-collegiate-clubs-motorsports-2026',
         title: 'PCCOE Collegiate Clubs & Motorsports Teams (Red Baron, Kratos, Automatons, Coding Club)',
         department: 'All Departments',
         collection: 'Student Clubs & Team Kratos Racing',
       },
       {
-        path: path.resolve(__dirname, '../../../sample_data/pccoe_rankings_accreditations.txt'),
+        fileName: 'pccoe_rankings_accreditations.txt',
         docId: 'pccoe-rankings-accreditations-2026',
         title: 'PCCOE National Rankings, NBA/NAAC Accreditations & Achievements 2026',
         department: 'All Departments',
         collection: 'Accreditations & Rankings',
       },
       {
-        path: path.resolve(__dirname, '../../../sample_data/pccoe_admissions_fees_scholarships.txt'),
+        fileName: 'pccoe_admissions_fees_scholarships.txt',
         docId: 'pccoe-admissions-fees-scholarships-2026',
         title: 'PCCOE Admissions 2026-27: MHT-CET Cutoffs, Fee Structure & Scholarship Schemes',
         department: 'All Departments',
         collection: 'Admissions & Scholarships',
       },
       {
-        path: path.resolve(__dirname, '../../../sample_data/pccoe_placements_training.txt'),
+        fileName: 'pccoe_placements_training.txt',
         docId: 'pccoe-placements-training-2026',
         title: 'PCCOE Training & Placement Cell: Statistics, Recruiters & Industry Relations 2026',
         department: 'All Departments',
         collection: 'Training & Placement',
       },
       {
-        path: path.resolve(__dirname, '../../../sample_data/pccoe_academics_examinations_student_life.txt'),
+        fileName: 'pccoe_academics_examinations_student_life.txt',
         docId: 'pccoe-academics-examinations-student-life-2026',
         title: 'PCCOE Academic System, Examinations, Library, Hostel & Student Life 2026-27',
         department: 'All Departments',
@@ -81,14 +107,16 @@ export async function autoIndexDefaultKnowledge(): Promise<void> {
 
     let totalIndexed = 0;
 
-    for (const item of filesToIndex) {
-      if (!fs.existsSync(item.path)) {
-        logger.warn(`Knowledge file not found at ${item.path}`);
+    for (const item of filesToResolve) {
+      const resolvedPath = resolveKnowledgePath(item.fileName);
+
+      if (!resolvedPath) {
+        logger.warn(`Knowledge file "${item.fileName}" could not be found across search paths.`);
         continue;
       }
 
       logger.info(`Indexing: ${item.title}`);
-      const extraction = await extractTextFromFile(item.path, 'text/plain');
+      const extraction = await extractTextFromFile(resolvedPath, 'text/plain');
       const chunks = chunkDocumentPages(extraction.pages, {
         documentId: item.docId,
         documentTitle: item.title,

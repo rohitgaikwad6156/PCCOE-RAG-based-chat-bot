@@ -29,6 +29,7 @@ router.post(
   (req: Request, res: Response, next: NextFunction) => authController.login(req, res, next)
 );
 
+router.post('/google', (req: Request, res: Response, next: NextFunction) => authController.googleAuth(req, res, next));
 router.get('/me', requireAuth, (req: AuthRequest, res: Response, next: NextFunction) => authController.getMe(req, res, next));
 router.post('/logout', (req: Request, res: Response) => authController.logout(req, res));
 

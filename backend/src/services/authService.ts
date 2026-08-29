@@ -5,6 +5,7 @@ import { User, IUser } from '../models/User';
 import { env } from '../config/env';
 import { isDbConnected } from '../config/database';
 import { memoryDb } from '../config/memoryDb';
+import { logger } from '../utils/logger';
 
 export interface AuthTokens {
   token: string;
@@ -14,6 +15,8 @@ export interface AuthTokens {
     email: string;
     role: 'student' | 'admin';
     department: string;
+    avatar?: string;
+    authProvider?: string;
   };
 }
 
@@ -35,6 +38,8 @@ export class AuthService {
       email: user.email,
       role: user.role,
       department: user.department,
+      avatar: user.avatar || '',
+      authProvider: user.authProvider || 'local',
     };
   }
 
@@ -56,6 +61,7 @@ export class AuthService {
         passwordHash,
         role,
         department: department.trim(),
+        authProvider: 'local',
       });
 
       const token = this.generateToken(user);
@@ -84,6 +90,7 @@ export class AuthService {
       passwordHash,
       role,
       department: department.trim(),
+      authProvider: 'local',
       createdAt: new Date(),
       comparePassword: async (candidate: string) => bcrypt.compare(candidate, passwordHash),
     };
@@ -133,6 +140,107 @@ export class AuthService {
     const isMatch = await foundUser.comparePassword(password);
     if (!isMatch) {
       throw new Error('Invalid email or password.');
+    }
+
+    const token = this.generateToken(foundUser);
+    return {
+      token,
+      user: this.formatUser(foundUser),
+    };
+  }
+
+  async googleAuth(data: { email?: string; name?: string; avatar?: string; googleId?: string; credential?: string }): Promise<AuthTokens> {
+    let email = data.email;
+    let name = data.name;
+    let avatar = data.avatar || '';
+    let googleId = data.googleId || '';
+
+    // If client sent a Google Identity Services JWT credential
+    if (data.credential && !email) {
+      try {
+        const parts = data.credential.split('.');
+        if (parts.length >= 2) {
+          const base64Url = parts[1];
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const jsonPayload = Buffer.from(base64, 'base64').toString('utf8');
+          const payload = JSON.parse(jsonPayload);
+          email = payload.email;
+          name = payload.name || payload.given_name || payload.email.split('@')[0];
+          avatar = payload.picture || '';
+          googleId = payload.sub || '';
+        }
+      } catch (err: any) {
+        logger.warn(`Could not parse Google token credential: ${err.message}`);
+      }
+    }
+
+    if (!email) {
+      throw new Error('Email address is required for Google Sign-In.');
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+    const finalName = name?.trim() || cleanEmail.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+    const finalGoogleId = googleId || `google_${cleanEmail.replace(/[^a-zA-Z0-9]/g, '_')}`;
+
+    logger.info(`Processing Google Sign-In authentication for: ${cleanEmail}`);
+
+    if (isDbConnected()) {
+      let user = await User.findOne({ email: cleanEmail });
+
+      if (user) {
+        // User already exists; update Google info and authProvider if needed
+        if (!user.googleId) user.googleId = finalGoogleId;
+        if (!user.avatar && avatar) user.avatar = avatar;
+        user.authProvider = 'google';
+        await user.save();
+      } else {
+        // Create new user authenticated via Google
+        user = await User.create({
+          name: finalName,
+          email: cleanEmail,
+          googleId: finalGoogleId,
+          avatar,
+          authProvider: 'google',
+          role: 'student',
+          department: 'General',
+        });
+      }
+
+      const token = this.generateToken(user);
+      return {
+        token,
+        user: this.formatUser(user),
+      };
+    }
+
+    // In-memory DB fallback
+    let foundUser: any = null;
+    for (const u of memoryDb.users.values()) {
+      if (u.email.toLowerCase() === cleanEmail) {
+        foundUser = u;
+        break;
+      }
+    }
+
+    if (foundUser) {
+      foundUser.googleId = finalGoogleId;
+      if (avatar) foundUser.avatar = avatar;
+      foundUser.authProvider = 'google';
+    } else {
+      const newId = new mongoose.Types.ObjectId().toString();
+      foundUser = {
+        _id: new mongoose.Types.ObjectId(newId),
+        id: newId,
+        name: finalName,
+        email: cleanEmail,
+        googleId: finalGoogleId,
+        avatar,
+        authProvider: 'google',
+        role: 'student',
+        department: 'General',
+        createdAt: new Date(),
+      };
+      memoryDb.users.set(newId, foundUser);
     }
 
     const token = this.generateToken(foundUser);

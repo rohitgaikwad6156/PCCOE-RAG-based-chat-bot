@@ -8,6 +8,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string, department?: string, role?: string) => Promise<void>;
+  googleLogin: (data: { email?: string; name?: string; avatar?: string; googleId?: string; credential?: string }) => Promise<void>;
   logout: () => void;
   isAdmin: boolean;
 }
@@ -63,6 +64,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(newUser);
   };
 
+  const googleLogin = async (data: { email?: string; name?: string; avatar?: string; googleId?: string; credential?: string }) => {
+    const res = await authApi.googleAuth(data);
+    const { token: newToken, user: newUser } = res.data;
+    localStorage.setItem('college_rag_token', newToken);
+    localStorage.setItem('college_rag_user', JSON.stringify(newUser));
+    setToken(newToken);
+    setUser(newUser);
+  };
+
   const logout = () => {
     authApi.logout().catch(() => {});
     localStorage.removeItem('college_rag_token');
@@ -79,6 +89,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isLoading,
         login,
         signup,
+        googleLogin,
         logout,
         isAdmin: user?.role === 'admin',
       }}

@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { GraduationCap, Lock, Mail, ArrowRight, ShieldCheck, UserCheck, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
+import { GoogleAuthButton } from '../components/auth/GoogleAuthModal';
 
 export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -57,8 +58,24 @@ export const LoginPage: React.FC = () => {
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="glass-panel py-8 px-6 sm:px-8 rounded-3xl border border-slate-800 shadow-2xl">
+          {/* Continue with Google Button */}
+          <div className="mb-5">
+            <GoogleAuthButton label="Continue with Google Account" />
+          </div>
+
+          <div className="relative my-5">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-800" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-slate-900 px-3 text-[10px] font-bold text-slate-500 tracking-wider">
+                Or sign in with email & password
+              </span>
+            </div>
+          </div>
+
           {/* Demo Login Shortcuts */}
-          <div className="mb-6 pb-5 border-b border-slate-800">
+          <div className="mb-5 pb-4 border-b border-slate-800/80">
             <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 text-center">
               Quick PCCOE Demo Fill:
             </div>
@@ -122,7 +139,7 @@ export const LoginPage: React.FC = () => {
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
                 <>
-                  <span>Sign In</span>
+                  <span>Sign In with Password</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </>
               )}

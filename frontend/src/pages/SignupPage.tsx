@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { GraduationCap, Lock, Mail, User as UserIcon, ArrowRight, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { GoogleAuthButton } from '../components/auth/GoogleAuthModal';
+import { GoogleOAuthButton } from '../components/auth/GoogleOAuthButton';
 
 export const SignupPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -49,7 +49,7 @@ export const SignupPage: React.FC = () => {
         <div className="glass-panel py-8 px-6 sm:px-8 rounded-3xl border border-slate-800 shadow-2xl">
           {/* Sign up with Google */}
           <div className="mb-5">
-            <GoogleAuthButton label="Sign up with Google Account" />
+            <GoogleOAuthButton label="Sign up with Google Account" />
           </div>
 
           <div className="relative my-5">

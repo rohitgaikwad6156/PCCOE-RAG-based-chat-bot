@@ -1,0 +1,60 @@
+# Pimpri Chinchwad College of Engineering (PCCOE), Pune
+# Departmental Student Associations, Technical Clubs & Co-Curricular Chapters
+**Autonomous Institute | DTE Code: 6175 | Sector 26, Pradhikaran, Nigdi, Pune - 411044**
+
+---
+
+## 1. Information Technology Students Association (ITSA) - PCCOE Pune
+### 1.1 Overview & Objective:
+The Information Technology Students Association (ITSA) is the premier departmental student organization founded under the Department of Information Technology at PCCOE Pune. ITSA is dedicated to bridging the gap between academic curriculum and current IT industry demands, fostering technical excellence, leadership qualities, and professional teamwork among student members.
+
+### 1.2 Key Activities & Annual Initiatives of ITSA:
+- **Inspiria**: The flagship annual national-level technical symposium organized by ITSA, featuring algorithmic coding contests, web/app hackathons, technical paper presentations, and UI/UX design challenges.
+- **Hands-on Technical Bootcamps**: Periodic workshops on Full-Stack Web Development (MERN/Next.js), Cloud Computing (AWS/GCP), DevOps, Git/GitHub mastery, and Generative AI application development.
+- **CodeCombat & Weekly Coding Leagues**: Competitive programming sessions on LeetCode/HackerRank to prepare students for technical interviews of product companies (Microsoft, Barclays, Adobe, Veritas).
+- **Alumni Mentorship & Tech Talks**: Interactive sessions with PCCOE IT alumni working across Silicon Valley and Indian tech hubs, guiding students on internships, career paths, and higher education.
+- **Social Impact Initiatives**: Organizing digital literacy drives for rural schools and community development projects.
+
+### 1.3 ITSA Executive Committee Structure:
+- Head of Department (HOD) - IT: Chief Patron
+- Faculty Coordinator: Senior Assistant Professor, Department of IT
+- Student Leadership: President, Vice-President, Secretary, Treasurer, Technical Head, Event Management Head, Public Relations & Social Media Lead, and Webmaster.
+
+---
+
+## 2. Computer Engineering Students Association (CESA)
+- Established under the Department of Computer Engineering.
+- Organizes the annual tech fest **'Anant'**, 24-hour hackathons, Open Source contributions, and Competitive Programming bootcamps.
+- Coordinates student participation in Smart India Hackathon (SIH) and ICPC.
+
+---
+
+## 3. Electronics & Telecommunication Students Association (ETSA)
+- Department of E&TC student body.
+- Conducts workshops on Embedded Systems, IoT, Robotics, VLSI design with FPGA, and PCB design.
+
+---
+
+## 4. Mechanical Engineering Students Association (MESA)
+- Department of Mechanical Engineering student forum.
+- Organizes CAD/CAM modeling competitions, 3D printing workshops, automobile teardown events, and industrial visits to Tata Motors, Cummins, and Mahindra.
+
+---
+
+## 5. Civil Engineering Students Association (CESA-Civil)
+- Fosters practical learning in structural engineering, GIS/Remote Sensing, Total Station surveying, and Green Building concepts.
+
+---
+
+## 6. Formula Student & Motorsports Teams of PCCOE
+- **Team Kratos Racing (TKR)**: The acclaimed Formula Student race-car engineering team of PCCOE. Designs, manufactures, and tests combustion and electric Formula Student racing cars. Competes annually in Formula Bharat and Formula Student Germany.
+- **Team Redline Racing**: National champion Baja SAE ATV (All-Terrain Vehicle) engineering team of PCCOE.
+
+---
+
+## 7. Robotics, Professional Chapters & Cultural Bodies
+- **Robocon PCCOE**: National robotics competition team representing PCCOE at ABU Robocon.
+- **PCCOE IEEE Student Branch**: Conducts IEEE international conferences, paper presentations, and research symposiums.
+- **ACM PCCOE Student Chapter**: Focuses on advanced computing research, data science, and high-performance computing.
+- **GDSC PCCOE (Google Developer Student Clubs)**: Google-supported community for Android, Flutter, Cloud, and Machine Learning.
+- **Art Circle & Natyasourabh**: Cultural, music, dance, and Marathi drama clubs winning accolades at Firodiya Karandak and Purushottam Karandak.

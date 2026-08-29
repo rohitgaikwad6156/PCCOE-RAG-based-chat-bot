@@ -4,12 +4,9 @@ import bcrypt from 'bcryptjs';
 export interface IUser extends MongooseDocument {
   name: string;
   email: string;
-  passwordHash?: string;
+  passwordHash: string;
   role: 'student' | 'admin';
   department: string;
-  googleId?: string;
-  avatar?: string;
-  authProvider: 'local' | 'google';
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -34,7 +31,7 @@ const UserSchema = new Schema<IUser>(
     },
     passwordHash: {
       type: String,
-      required: false,
+      required: [true, 'Password is required'],
       select: false,
     },
     role: {
@@ -48,26 +45,11 @@ const UserSchema = new Schema<IUser>(
       default: 'General',
       trim: true,
     },
-    googleId: {
-      type: String,
-      sparse: true,
-      index: true,
-    },
-    avatar: {
-      type: String,
-      default: '',
-    },
-    authProvider: {
-      type: String,
-      enum: ['local', 'google'],
-      default: 'local',
-    },
   },
   { timestamps: true }
 );
 
 UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-  if (!this.passwordHash) return false;
   return bcrypt.compare(candidatePassword, this.passwordHash);
 };
 

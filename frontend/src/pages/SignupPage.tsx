@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { GraduationCap, Lock, Mail, User as UserIcon, ArrowRight, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { GoogleAuthButton } from '../components/auth/GoogleAuthButton';
 
 export const SignupPage: React.FC = () => {
   const [name, setName] = useState('');
@@ -31,9 +30,6 @@ export const SignupPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 relative selection:bg-brand-500 selection:text-white">
-      {/* Background glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-brand-500/10 rounded-full blur-3xl pointer-events-none" />
-
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <Link to="/" className="inline-flex items-center gap-2 mb-4 group">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
@@ -47,22 +43,6 @@ export const SignupPage: React.FC = () => {
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="glass-panel py-8 px-6 sm:px-8 rounded-3xl border border-slate-800 shadow-2xl">
-          {/* Google Sign-Up Primary Option */}
-          <div className="mb-5">
-            <GoogleAuthButton label="Sign up with Google Account" />
-          </div>
-
-          <div className="relative my-5">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-800" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-slate-900 px-3 text-[10px] font-bold text-slate-500 tracking-wider">
-                Or register with email
-              </span>
-            </div>
-          </div>
-
           <form onSubmit={handleSubmit} className="space-y-3.5">
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
@@ -80,7 +60,7 @@ export const SignupPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">PCCOE / Personal Email Address</label>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">PCCOE Email Address</label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
                 <input

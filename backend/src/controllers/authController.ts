@@ -49,20 +49,6 @@ export class AuthController {
     }
   }
 
-  async googleAuth(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const { credential, email, name, picture, googleId } = req.body;
-      const result = await authService.googleAuth({ credential, email, name, picture, googleId });
-      res.status(200).json({
-        success: true,
-        message: 'Google authentication successful.',
-        data: result,
-      });
-    } catch (error: any) {
-      next(error);
-    }
-  }
-
   async logout(_req: Request, res: Response): Promise<void> {
     res.status(200).json({
       success: true,

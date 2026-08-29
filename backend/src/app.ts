@@ -15,6 +15,7 @@ import feedbackRoutes from './routes/feedbackRoutes';
 import adminRoutes from './routes/adminRoutes';
 import diagnosticsRoutes from './routes/diagnosticsRoutes';
 import healthRoutes from './routes/healthRoutes';
+import { healthController } from './controllers/healthController';
 
 const app = express();
 
@@ -72,6 +73,26 @@ app.use('/api', limiter);
 // Serve uploaded files statically
 const uploadDir = path.resolve(__dirname, '../uploads');
 app.use('/uploads', express.static(uploadDir));
+
+// Root Status & Health Endpoints
+app.get('/', (_req, res) => {
+  res.status(200).json({
+    success: true,
+    service: 'PCCOE RAG Assistant Backend API',
+    status: 'online',
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/api/health',
+      chat: '/api/chat',
+      auth: '/api/auth',
+      documents: '/api/documents',
+      admin: '/api/admin',
+    },
+  });
+});
+
+app.get('/health', (req, res) => healthController.checkHealth(req, res));
 
 // Mount REST API Routes
 app.use('/api/auth', authRoutes);

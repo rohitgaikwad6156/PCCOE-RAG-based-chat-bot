@@ -12,7 +12,7 @@ export async function connectDatabase(): Promise<boolean> {
   try {
     mongoose.set('strictQuery', true);
     await mongoose.connect(env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 2000,
+      serverSelectionTimeoutMS: 10000,
     });
     isConnected = true;
     logger.info(`Connected to MongoDB successfully: ${env.MONGODB_URI.split('@')[1] || env.MONGODB_URI}`);

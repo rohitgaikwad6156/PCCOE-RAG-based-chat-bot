@@ -57,6 +57,17 @@ export class VectorStore {
     }
   }
 
+  private adaptVectorToDimension(vec: number[], targetDim = 1024): number[] {
+    if (!vec || vec.length === 0) return new Array(targetDim).fill(0);
+    if (vec.length === targetDim) return vec;
+    if (vec.length > targetDim) return vec.slice(0, targetDim);
+    const padded = new Array(targetDim).fill(0);
+    for (let i = 0; i < vec.length; i++) {
+      padded[i] = vec[i];
+    }
+    return padded;
+  }
+
   async upsertVectors(vectors: VectorRecord[]): Promise<void> {
     // Always store in memory for fast fallback
     for (const vec of vectors) {
@@ -70,14 +81,14 @@ export class VectorStore {
         for (let i = 0; i < vectors.length; i += batchSize) {
           const batch = vectors.slice(i, i + batchSize).map((v) => ({
             id: v.id,
-            values: v.values,
+            values: this.adaptVectorToDimension(v.values, 1024),
             metadata: v.metadata,
           }));
           await index.upsert(batch);
         }
-        logger.info(`Upserted ${vectors.length} vectors to Pinecone index.`);
+        logger.info(`Upserted ${vectors.length} vectors to Pinecone index (${this.pineconeIndexName}).`);
       } catch (err: any) {
-        logger.warn(`Pinecone upsert failed (${err.message}). Cached in-memory vector store active.`);
+        logger.warn(`Pinecone upsert notice (${err.message}). Cached in-memory vector store active.`);
       }
     }
   }
@@ -102,8 +113,10 @@ export class VectorStore {
           pineconeFilter.documentId = filter.documentId;
         }
 
+        const adaptedQueryVector = this.adaptVectorToDimension(queryVector, 1024);
+
         const response = await index.query({
-          vector: queryVector,
+          vector: adaptedQueryVector,
           topK,
           includeMetadata: true,
           filter: Object.keys(pineconeFilter).length > 0 ? pineconeFilter : undefined,

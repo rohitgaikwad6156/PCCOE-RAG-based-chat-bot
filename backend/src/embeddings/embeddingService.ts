@@ -13,25 +13,25 @@ export class EmbeddingService {
 
   async generateEmbedding(text: string): Promise<number[]> {
     if (!text || text.trim().length === 0) {
-      return this.generateDeterministicVector('');
+      return this.generateDeterministicVector('', 1024);
     }
 
     try {
-      // 1. Google Gemini Embeddings
-      if (this.provider === 'gemini' && env.GEMINI_API_KEY) {
-        return await this.generateGeminiEmbedding(text);
-      }
-
-      // 2. OpenAI Embeddings
+      // 1. OpenAI Embeddings (text-embedding-3-small natively supports 1024 dimensions)
       if (this.provider === 'openai' && env.OPENAI_API_KEY) {
         return await this.generateOpenAiEmbedding(text);
       }
 
-      // 3. Fallback: High-precision semantic dense vectorizer
-      return this.generateDeterministicVector(text);
+      // 2. Google Gemini Embeddings
+      if (this.provider === 'gemini' && env.GEMINI_API_KEY) {
+        return await this.generateGeminiEmbedding(text);
+      }
+
+      // 3. Fallback: High-precision semantic dense vectorizer (1024 dimensions)
+      return this.generateDeterministicVector(text, 1024);
     } catch (error: any) {
-      logger.warn(`External embedding call failed (${error.message}). Using high-precision dense fallback vector.`);
-      return this.generateDeterministicVector(text);
+      logger.warn(`External embedding call notice (${error.message}). Using high-precision dense vector (1024-dim).`);
+      return this.generateDeterministicVector(text, 1024);
     }
   }
 
@@ -53,18 +53,26 @@ export class EmbeddingService {
     });
 
     if (response.data?.embedding?.values) {
-      return response.data.embedding.values;
+      const raw = response.data.embedding.values;
+      return this.adaptToDimension(raw, 1024);
     }
     throw new Error('Invalid Gemini embedding response structure');
   }
 
   private async generateOpenAiEmbedding(text: string): Promise<number[]> {
+    const payload: Record<string, any> = {
+      model: this.model || 'text-embedding-3-small',
+      input: text.slice(0, 8000),
+    };
+
+    // If using text-embedding-3-* models, request 1024 dimensions to match index
+    if (payload.model.includes('text-embedding-3')) {
+      payload.dimensions = 1024;
+    }
+
     const response = await axios.post(
       'https://api.openai.com/v1/embeddings',
-      {
-        model: this.model || 'text-embedding-3-small',
-        input: text.slice(0, 8000),
-      },
+      payload,
       {
         headers: {
           Authorization: `Bearer ${env.OPENAI_API_KEY}`,
@@ -74,16 +82,27 @@ export class EmbeddingService {
     );
 
     if (response.data?.data?.[0]?.embedding) {
-      return response.data.data[0].embedding;
+      const raw = response.data.data[0].embedding;
+      return this.adaptToDimension(raw, 1024);
     }
     throw new Error('Invalid OpenAI embedding response structure');
   }
 
+  private adaptToDimension(vec: number[], targetDim = 1024): number[] {
+    if (vec.length === targetDim) return vec;
+    if (vec.length > targetDim) return vec.slice(0, targetDim);
+    const padded = new Array(targetDim).fill(0);
+    for (let i = 0; i < vec.length; i++) {
+      padded[i] = vec[i];
+    }
+    return padded;
+  }
+
   /**
-   * Deterministic 128-dimensional dense vector generator using character n-grams,
+   * Deterministic 1024-dimensional dense vector generator using character n-grams,
    * keyword salience, and hashing for offline local development & fast similarity.
    */
-  generateDeterministicVector(text: string, dimensions = 128): number[] {
+  generateDeterministicVector(text: string, dimensions = 1024): number[] {
     const vector = new Array(dimensions).fill(0);
     if (!text || text.trim().length === 0) return vector;
 
@@ -100,7 +119,7 @@ export class EmbeddingService {
       const index = Math.abs(hash) % dimensions;
       vector[index] += 1.0 / Math.sqrt(tokens.length + 1);
 
-      // Character trigrams for morphological similarity (e.g. exams vs examination)
+      // Character trigrams for morphological similarity
       if (token.length >= 3) {
         for (let k = 0; k <= token.length - 3; k++) {
           const trigram = token.slice(k, k + 3);
@@ -124,7 +143,6 @@ export class EmbeddingService {
   static calculateCosineSimilarity(vecA: number[], vecB: number[]): number {
     if (!vecA || !vecB || vecA.length === 0 || vecB.length === 0) return 0;
     
-    // If dimension mismatch (e.g. one is 768 and other is 128), truncate/pad safely
     const length = Math.min(vecA.length, vecB.length);
     let dotProduct = 0;
     let normA = 0;

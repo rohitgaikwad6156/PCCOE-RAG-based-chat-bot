@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Loader2, Mail, CheckCircle2, ArrowRight, X, AlertCircle } from 'lucide-react';
+import { Loader2, Mail, CheckCircle2, ArrowRight, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
@@ -16,7 +16,7 @@ interface GoogleOAuthButtonProps {
 
 export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'Continue with Google' }) => {
   const googleBtnContainerRef = useRef<HTMLDivElement>(null);
-  const [hasGoogleScriptLoaded, setHasGoogleScriptLoaded] = useState(false);
+  const [isSdkReady, setIsSdkReady] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [emailInput, setEmailInput] = useState('');
   const [nameInput, setNameInput] = useState('');
@@ -29,7 +29,7 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
 
   const from = (location.state as any)?.from?.pathname || '/chat';
 
-  // Read Google Client ID from Vite environment or default fallback
+  // Read Google Client ID from environment
   const GOOGLE_CLIENT_ID =
     import.meta.env.VITE_GOOGLE_CLIENT_ID ||
     '1082572186835-samplepccoegoogleoauthclientid.apps.googleusercontent.com';
@@ -58,7 +58,7 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
         navigate(from, { replace: true });
       }
     } catch (err: any) {
-      showToast(err.response?.data?.message || 'Google OAuth sign-in completed', 'success');
+      showToast(err.response?.data?.message || 'Signed in via Google', 'success');
       navigate(from, { replace: true });
     } finally {
       setIsLoading(false);
@@ -66,9 +66,9 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
   };
 
   useEffect(() => {
-    const checkGoogleSdk = () => {
+    const initGoogleIdentity = () => {
       if (window.google?.accounts?.id) {
-        setHasGoogleScriptLoaded(true);
+        setIsSdkReady(true);
         try {
           window.google.accounts.id.initialize({
             client_id: GOOGLE_CLIENT_ID,
@@ -86,26 +86,26 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
               text: 'continue_with',
               shape: 'rectangular',
               logo_alignment: 'left',
-              width: '360',
+              width: 360,
             });
           }
-        } catch (e) {
-          console.warn('Google Identity Services initialization notice:', e);
+        } catch (err) {
+          console.warn('Google SDK init notice:', err);
         }
       }
     };
 
-    checkGoogleSdk();
-    const interval = setInterval(checkGoogleSdk, 500);
-    const timeout = setTimeout(() => clearInterval(interval), 5000);
+    initGoogleIdentity();
+    const interval = setInterval(initGoogleIdentity, 400);
+    const timer = setTimeout(() => clearInterval(interval), 4000);
 
     return () => {
       clearInterval(interval);
-      clearTimeout(timeout);
+      clearTimeout(timer);
     };
   }, [GOOGLE_CLIENT_ID]);
 
-  const handleTriggerGoogleOAuth = () => {
+  const handleGoogleClick = () => {
     if (window.google?.accounts?.id && import.meta.env.VITE_GOOGLE_CLIENT_ID) {
       try {
         window.google.accounts.id.prompt((notification: any) => {
@@ -113,7 +113,6 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
             setIsModalOpen(true);
           }
         });
-        return;
       } catch (err) {
         setIsModalOpen(true);
       }
@@ -172,10 +171,16 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
 
   return (
     <div className="w-full space-y-2">
-      {/* Primary Google Auth Button */}
+      {/* Official Google GSI Rendered Button if available */}
+      <div
+        ref={googleBtnContainerRef}
+        className="w-full flex justify-center [&_iframe]:!w-full [&_iframe]:!max-w-full"
+      />
+
+      {/* Styled Interactive Fallback Button */}
       <button
         type="button"
-        onClick={handleTriggerGoogleOAuth}
+        onClick={handleGoogleClick}
         disabled={isLoading}
         className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-slate-500 text-slate-200 text-xs font-semibold shadow-sm flex items-center justify-center gap-2.5 transition-all group active:scale-[0.99] cursor-pointer"
       >
@@ -204,10 +209,7 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
         <span>{label}</span>
       </button>
 
-      {/* Hidden container for Google's native renderButton SDK */}
-      <div ref={googleBtnContainerRef} className="hidden" />
-
-      {/* Google OAuth & Saved Accounts Modal */}
+      {/* Google Account Selector Dialog */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-sm animate-fadeIn">
           <div className="bg-slate-900 border border-slate-700/80 rounded-3xl p-6 max-w-sm w-full shadow-2xl relative animate-scaleIn">

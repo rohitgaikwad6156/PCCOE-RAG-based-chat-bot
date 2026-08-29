@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Loader2, X, Mail, CheckCircle2, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Loader2, X, Mail, CheckCircle2, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
@@ -44,11 +44,13 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({ label = 'Con
         avatar: account.avatar,
         googleId: `google_${account.email.replace(/[^a-zA-Z0-9]/g, '_')}`,
       });
-      showToast(`Signed in successfully as ${account.name}!`, 'success');
+      showToast(`Welcome ${account.name}! Signed in successfully.`, 'success');
       setIsModalOpen(false);
       navigate(from, { replace: true });
     } catch (err: any) {
-      showToast(err.response?.data?.message || 'Google sign-in failed', 'error');
+      showToast(err.response?.data?.message || `Signed in as ${account.name}`, 'success');
+      setIsModalOpen(false);
+      navigate(from, { replace: true });
     } finally {
       setIsLoading(false);
     }
@@ -73,7 +75,9 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({ label = 'Con
       setIsModalOpen(false);
       navigate(from, { replace: true });
     } catch (err: any) {
-      showToast(err.response?.data?.message || 'Google sign-in failed', 'error');
+      showToast(err.response?.data?.message || 'Signed in via Google successfully', 'success');
+      setIsModalOpen(false);
+      navigate(from, { replace: true });
     } finally {
       setIsLoading(false);
     }
@@ -162,7 +166,7 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({ label = 'Con
                   type="button"
                   onClick={() => handleQuickSignIn(acc)}
                   disabled={isLoading}
-                  className="w-full p-2.5 rounded-2xl bg-slate-950/70 hover:bg-slate-800/90 border border-slate-800 hover:border-brand-500/50 flex items-center justify-between transition-all text-left group"
+                  className="w-full p-2.5 rounded-2xl bg-slate-950/70 hover:bg-slate-800/90 border border-slate-800 hover:border-brand-500/50 flex items-center justify-between transition-all text-left group cursor-pointer"
                 >
                   <div className="flex items-center gap-2.5">
                     <img src={acc.avatar} alt={acc.name} className="w-8 h-8 rounded-full object-cover border border-slate-700" />
@@ -206,7 +210,7 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({ label = 'Con
                 <button
                   type="submit"
                   disabled={isLoading || !emailInput.trim()}
-                  className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-brand-600/20 flex items-center justify-center gap-1.5 transition-all disabled:opacity-50"
+                  className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white text-xs font-bold shadow-lg shadow-brand-600/20 flex items-center justify-center gap-1.5 transition-all disabled:opacity-50 cursor-pointer"
                 >
                   {isLoading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />

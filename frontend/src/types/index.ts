@@ -4,6 +4,8 @@ export interface User {
   email: string;
   role: 'student' | 'admin';
   department: string;
+  avatar?: string;
+  authProvider?: 'local' | 'google';
 }
 
 export interface SourceRef {

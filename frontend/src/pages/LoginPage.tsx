@@ -60,7 +60,7 @@ export const LoginPage: React.FC = () => {
         <div className="glass-panel py-8 px-6 sm:px-8 rounded-3xl border border-slate-800 shadow-2xl">
           {/* Continue with Google Button */}
           <div className="mb-5">
-            <GoogleOAuthButton label="Continue with Google Account" />
+            <GoogleOAuthButton label="Continue with Google" />
           </div>
 
           <div className="relative my-5">

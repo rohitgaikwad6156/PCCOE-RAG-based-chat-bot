@@ -47,9 +47,9 @@ export const SignupPage: React.FC = () => {
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="glass-panel py-8 px-6 sm:px-8 rounded-3xl border border-slate-800 shadow-2xl">
-          {/* Sign up with Google */}
+          {/* Continue with Google */}
           <div className="mb-5">
-            <GoogleOAuthButton label="Sign up with Google Account" />
+            <GoogleOAuthButton label="Continue with Google" />
           </div>
 
           <div className="relative my-5">

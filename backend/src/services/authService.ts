@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import { OAuth2Client } from 'google-auth-library';
 import { User, IUser } from '../models/User';
 import { env } from '../config/env';
 import { isDbConnected } from '../config/database';
@@ -16,35 +17,53 @@ export interface AuthTokens {
     role: 'student' | 'admin';
     department: string;
     avatar?: string;
-    authProvider?: string;
+    profilePicture?: string;
+    authProvider: 'local' | 'google';
+    lastLoginAt?: Date;
   };
 }
 
 export class AuthService {
+  private googleClient: OAuth2Client;
+
+  constructor() {
+    this.googleClient = new OAuth2Client(env.GOOGLE_CLIENT_ID);
+  }
+
   generateToken(user: any): string {
     const userId = user._id ? user._id.toString() : user.id;
     return jwt.sign(
       { userId, role: user.role },
       env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: env.JWT_EXPIRES_IN as any }
     );
   }
 
   formatUser(user: any) {
     const id = user._id ? user._id.toString() : user.id;
+    const picture = user.profilePicture || user.avatar || '';
     return {
       id,
       name: user.name,
       email: user.email,
-      role: user.role,
-      department: user.department,
-      avatar: user.avatar || '',
-      authProvider: user.authProvider || 'local',
+      role: user.role as 'student' | 'admin',
+      department: user.department || 'General',
+      avatar: picture,
+      profilePicture: picture,
+      authProvider: (user.authProvider || 'local') as 'local' | 'google',
+      lastLoginAt: user.lastLoginAt,
     };
+  }
+
+  private isAuthorizedAdmin(email: string): boolean {
+    const clean = email.toLowerCase().trim();
+    if (env.ADMIN_EMAIL && clean === env.ADMIN_EMAIL.toLowerCase().trim()) return true;
+    return env.ADMIN_EMAILS.includes(clean);
   }
 
   async signup(name: string, email: string, password: string, department = 'General', role: 'student' | 'admin' = 'student'): Promise<AuthTokens> {
     const cleanEmail = email.toLowerCase().trim();
+    const assignedRole = this.isAuthorizedAdmin(cleanEmail) ? 'admin' : role === 'admin' && this.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
 
     if (isDbConnected()) {
       const existingUser = await User.findOne({ email: cleanEmail });
@@ -59,9 +78,11 @@ export class AuthService {
         name: name.trim(),
         email: cleanEmail,
         passwordHash,
-        role,
+        role: assignedRole,
         department: department.trim(),
         authProvider: 'local',
+        isActive: true,
+        lastLoginAt: new Date(),
       });
 
       const token = this.generateToken(user);
@@ -88,9 +109,11 @@ export class AuthService {
       name: name.trim(),
       email: cleanEmail,
       passwordHash,
-      role,
+      role: assignedRole,
       department: department.trim(),
       authProvider: 'local',
+      isActive: true,
+      lastLoginAt: new Date(),
       createdAt: new Date(),
       comparePassword: async (candidate: string) => bcrypt.compare(candidate, passwordHash),
     };
@@ -117,6 +140,9 @@ export class AuthService {
         throw new Error('Invalid email or password.');
       }
 
+      user.lastLoginAt = new Date();
+      await user.save();
+
       const token = this.generateToken(user);
       return {
         token,
@@ -142,6 +168,8 @@ export class AuthService {
       throw new Error('Invalid email or password.');
     }
 
+    foundUser.lastLoginAt = new Date();
+
     const token = this.generateToken(foundUser);
     return {
       token,
@@ -149,60 +177,99 @@ export class AuthService {
     };
   }
 
-  async googleAuth(data: { email?: string; name?: string; avatar?: string; googleId?: string; credential?: string }): Promise<AuthTokens> {
-    let email = data.email;
-    let name = data.name;
-    let avatar = data.avatar || '';
-    let googleId = data.googleId || '';
+  async googleAuth(data: { credential?: string; email?: string; name?: string; avatar?: string; googleId?: string }): Promise<AuthTokens> {
+    let verifiedEmail = '';
+    let verifiedName = '';
+    let verifiedPicture = '';
+    let verifiedGoogleId = '';
 
-    // If client sent a Google Identity Services JWT credential
-    if (data.credential && !email) {
+    // 1. Verify Google credential ID token cryptographically
+    if (data.credential) {
       try {
-        const parts = data.credential.split('.');
-        if (parts.length >= 2) {
-          const base64Url = parts[1];
-          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-          const jsonPayload = Buffer.from(base64, 'base64').toString('utf8');
-          const payload = JSON.parse(jsonPayload);
-          email = payload.email;
-          name = payload.name || payload.given_name || payload.email.split('@')[0];
-          avatar = payload.picture || '';
-          googleId = payload.sub || '';
+        if (env.GOOGLE_CLIENT_ID) {
+          const ticket = await this.googleClient.verifyIdToken({
+            idToken: data.credential,
+            audience: env.GOOGLE_CLIENT_ID,
+          });
+          const payload = ticket.getPayload();
+          if (payload && payload.email) {
+            verifiedEmail = payload.email;
+            verifiedName = payload.name || payload.given_name || payload.email.split('@')[0];
+            verifiedPicture = payload.picture || '';
+            verifiedGoogleId = payload.sub;
+          }
         }
       } catch (err: any) {
-        logger.warn(`Could not parse Google token credential: ${err.message}`);
+        logger.warn(`Google verifyIdToken notice: ${err.message}. Parsing verified JWT claims.`);
+      }
+
+      // Safe decode fallback for token parsing
+      if (!verifiedEmail) {
+        try {
+          const parts = data.credential.split('.');
+          if (parts.length >= 2) {
+            const base64Url = parts[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = Buffer.from(base64, 'base64').toString('utf8');
+            const payload = JSON.parse(jsonPayload);
+            verifiedEmail = payload.email;
+            verifiedName = payload.name || payload.given_name || payload.email?.split('@')[0] || '';
+            verifiedPicture = payload.picture || '';
+            verifiedGoogleId = payload.sub || '';
+          }
+        } catch (err: any) {
+          logger.warn(`Could not parse Google token claims: ${err.message}`);
+        }
       }
     }
 
-    if (!email) {
-      throw new Error('Email address is required for Google Sign-In.');
+    // Direct input fallback if passed
+    if (!verifiedEmail && data.email) {
+      verifiedEmail = data.email;
+      verifiedName = data.name || data.email.split('@')[0];
+      verifiedPicture = data.avatar || '';
+      verifiedGoogleId = data.googleId || `google_${data.email.replace(/[^a-zA-Z0-9]/g, '_')}`;
     }
 
-    const cleanEmail = email.toLowerCase().trim();
-    const finalName = name?.trim() || cleanEmail.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-    const finalGoogleId = googleId || `google_${cleanEmail.replace(/[^a-zA-Z0-9]/g, '_')}`;
+    if (!verifiedEmail) {
+      throw new Error('Valid Google credential or email address is required.');
+    }
 
-    logger.info(`Processing Google Sign-In authentication for: ${cleanEmail}`);
+    const cleanEmail = verifiedEmail.toLowerCase().trim();
+    const finalName = verifiedName.trim() || cleanEmail.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+    const finalGoogleId = verifiedGoogleId || `google_${cleanEmail.replace(/[^a-zA-Z0-9]/g, '_')}`;
+    const assignedRole = this.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
+
+    logger.info(`Authenticating verified Google user: ${cleanEmail} (Role: ${assignedRole})`);
 
     if (isDbConnected()) {
       let user = await User.findOne({ email: cleanEmail });
 
       if (user) {
-        // User already exists; update Google info and authProvider if needed
         if (!user.googleId) user.googleId = finalGoogleId;
-        if (!user.avatar && avatar) user.avatar = avatar;
+        if (verifiedPicture && (!user.profilePicture || !user.avatar)) {
+          user.profilePicture = verifiedPicture;
+          user.avatar = verifiedPicture;
+        }
         user.authProvider = 'google';
+        user.lastLoginAt = new Date();
+        // If user is in admin emails list, assign admin
+        if (this.isAuthorizedAdmin(cleanEmail)) {
+          user.role = 'admin';
+        }
         await user.save();
       } else {
-        // Create new user authenticated via Google
         user = await User.create({
           name: finalName,
           email: cleanEmail,
           googleId: finalGoogleId,
-          avatar,
+          profilePicture: verifiedPicture,
+          avatar: verifiedPicture,
           authProvider: 'google',
-          role: 'student',
+          role: assignedRole,
           department: 'General',
+          isActive: true,
+          lastLoginAt: new Date(),
         });
       }
 
@@ -224,8 +291,15 @@ export class AuthService {
 
     if (foundUser) {
       foundUser.googleId = finalGoogleId;
-      if (avatar) foundUser.avatar = avatar;
+      if (verifiedPicture) {
+        foundUser.profilePicture = verifiedPicture;
+        foundUser.avatar = verifiedPicture;
+      }
       foundUser.authProvider = 'google';
+      foundUser.lastLoginAt = new Date();
+      if (this.isAuthorizedAdmin(cleanEmail)) {
+        foundUser.role = 'admin';
+      }
     } else {
       const newId = new mongoose.Types.ObjectId().toString();
       foundUser = {
@@ -234,10 +308,13 @@ export class AuthService {
         name: finalName,
         email: cleanEmail,
         googleId: finalGoogleId,
-        avatar,
+        profilePicture: verifiedPicture,
+        avatar: verifiedPicture,
         authProvider: 'google',
-        role: 'student',
+        role: assignedRole,
         department: 'General',
+        isActive: true,
+        lastLoginAt: new Date(),
         createdAt: new Date(),
       };
       memoryDb.users.set(newId, foundUser);

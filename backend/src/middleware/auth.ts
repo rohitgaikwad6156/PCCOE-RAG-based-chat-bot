@@ -28,17 +28,17 @@ export async function requireAuth(req: AuthRequest, res: Response, next: NextFun
     const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
 
-    let user;
+    let user: any;
     if (isDbConnected()) {
       user = await User.findById(decoded.userId);
     } else {
       user = memoryDb.users.get(decoded.userId);
     }
 
-    if (!user) {
+    if (!user || user.isActive === false) {
       res.status(401).json({
         success: false,
-        message: 'User associated with token no longer exists.',
+        message: 'User account not found or deactivated.',
       });
       return;
     }
@@ -48,7 +48,7 @@ export async function requireAuth(req: AuthRequest, res: Response, next: NextFun
   } catch (error: any) {
     res.status(401).json({
       success: false,
-      message: 'Invalid or expired authentication token.',
+      message: 'Invalid or expired authentication token. Please log in again.',
     });
   }
 }
@@ -57,9 +57,22 @@ export function requireAdmin(req: AuthRequest, res: Response, next: NextFunction
   if (!req.user || req.user.role !== 'admin') {
     res.status(403).json({
       success: false,
-      message: 'Forbidden: Admin access required for this operation.',
+      message: 'Forbidden: Administrator privileges are required to access this resource.',
     });
     return;
   }
   next();
+}
+
+export function requireRole(allowedRoles: string[]) {
+  return (req: AuthRequest, res: Response, next: NextFunction): void => {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      res.status(403).json({
+        success: false,
+        message: `Forbidden: Access restricted to [${allowedRoles.join(', ')}] roles.`,
+      });
+      return;
+    }
+    next();
+  };
 }

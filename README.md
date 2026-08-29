@@ -1,148 +1,194 @@
-# PCCOE Digital Assistant & Enterprise RAG AI Platform
+# 🎓 PCCOE AI Assistant — Full-Stack RAG College Knowledge Platform
 
-An enterprise-grade, full-stack Retrieval-Augmented Generation (RAG) AI Assistant engineered for **Pimpri Chinchwad College of Engineering (PCCOE), Pune** (Autonomous Institute, NAAC 'A++', DTE Code: 6175).
+An enterprise-grade, full-stack **Retrieval-Augmented Generation (RAG)** platform designed specifically for **Pimpri Chinchwad College of Engineering (PCCOE), Pune** (Autonomous Institute, NAAC 'A++', DTE Code: 6175).
 
-The platform combines **Structured MongoDB Knowledge Models** with an **Unstructured Vector Semantic Search Pipeline** and **Large Language Models (LLMs)** to deliver accurate, grounded, and verifiable answers with source citations.
+The system integrates **Google OAuth 2.0 & JWT Authentication**, **MongoDB Atlas User & Chat History Persistence**, **Pinecone Vector Database Search**, and **Multi-LLM Synthesizers (OpenAI, Gemini, OpenRouter)** with verified source citations.
 
 ---
 
-## 🏛️ Core Architecture & Hybrid RAG Pipeline
+## 🏛️ System Architecture
 
-```mermaid
-graph TD
-    A[Student / Admin Question] --> B[RAG Query Controller]
-    B --> C[Structured MongoDB Search]
-    B --> D[Semantic Vector Search]
-    
-    C -->|Departments, HODs, Clubs, Fees, Hostels| E[Unified Context Buffer]
-    D -->|Handbook Chunks, Cutoffs, Circulars| E
-    
-    E --> F[LLM Generation Engine]
-    F --> G[Grounded Answer + Real Source Citations]
-    G --> H[Chat UI & History]
+```
+                      ┌─────────────────────────────────┐
+                      │  Frontend (React 18 + Vite)     │
+                      │  Deployed on Vercel             │
+                      └────────────────┬────────────────┘
+                                       │
+                                (JWT Bearer Token)
+                                       │
+                      ┌────────────────▼────────────────┐
+                      │  Backend (Node.js + Express)    │
+                      │  Deployed on Render             │
+                      └────────────────┬────────────────┘
+                                       │
+       ┌───────────────────────────────┼───────────────────────────────┐
+       │                               │                               │
+┌──────▼─────────────┐   ┌─────────────▼─────────────┐   ┌─────────────▼─────────────┐
+│   MongoDB Atlas    │   │      Pinecone Vector DB   │   │     Multi-LLM Synthesis   │
+│ ────────────────── │   │ ───────────────────────── │   │ ───────────────────────── │
+│ • Users & Roles    │   │ • 140+ Knowledge Vectors  │   │ • OpenAI GPT-4o-mini      │
+│ • Chat History     │   │ • 1024-dim Embeddings     │   │ • Google Gemini           │
+│ • Structured Data  │   │ • Cosine Similarity       │   │ • OpenRouter              │
+│   (Faculty, Fees,  │   │ • Departmental Filtering  │   │ • Grounded Answer Output  │
+│   Clubs, Notices)  │   │ • Source Page Numbers     │   │ • Source Citation Cards   │
+└────────────────────┘   └───────────────────────────┘   └───────────────────────────┘
 ```
 
-### 1. Ingestion Pipeline (Unstructured Knowledge)
-1. **Document Upload**: PDF, TXT, DOCX uploaded via the Admin Portal or auto-indexed on startup.
-2. **Text Extraction & Page Mapping**: Preserves accurate page numbers and document metadata.
-3. **Paragraph-Aware Chunking**: Chunks text by logical sections without breaking numbers or percentiles (`1400` chars with `150` char overlap).
-4. **Vector Embedding**: 128-dimensional dense semantic vectors with character n-gram hashing and stop-word filtering.
-5. **Vector DB Upsert**: Stored in Pinecone / High-Performance In-Memory Vector Store with metadata (`documentId`, `documentTitle`, `pageNumber`, `chunkIndex`, `department`, `collectionName`, `text`).
+---
 
-### 2. Query Pipeline (Hybrid Retrieval)
-1. **Question Embedding**: Generates vector representation for the student query.
-2. **Semantic Search & Hybrid Re-Ranking**: Computes cosine similarity scores with exact keyword salience.
-3. **Structured MongoDB Query**: Retrieves structured profiles (Departments, HODs, Placements, Hostels, Scholarships, Clubs).
-4. **Context Construction**: Assembles structured database records + top relevant document chunks into a unified prompt context.
-5. **LLM Synthesis**: The LLM analyzes the context and synthesizes a natural, factual response without hallucinations.
-6. **Source Attribution**: Attaches verified source citations with document titles, page numbers, and relevance percentages.
+## 🔐 Authentication & Security
+
+### 1. Google OAuth 2.0 Integration
+- **Google Identity Services (GSI)**: Supports one-click native Google popup using saved browser accounts.
+- **Backend Cryptographic Verification**: Backend verifies Google ID tokens using `google-auth-library` (`OAuth2Client.verifyIdToken`), extracting verified `sub` (Google ID), `email`, `name`, and `picture`.
+- **Role-Based Authorization**: Regular Google sign-ins default to the `student` role. Only verified institutional administrator emails (`ADMIN_EMAILS` or `ADMIN_EMAIL`) receive `admin` privileges.
+
+### 2. JWT Session Security
+- Signed using `JWT_SECRET` with configurable expiry (`JWT_EXPIRES_IN=7d`).
+- Payload contains only `userId` and `role`.
+- Enforced on all protected routes via `requireAuth` and `requireAdmin` middleware.
+
+### 3. User-Specific Chat History Isolation
+- All conversations (`POST /api/chat`, `GET /api/chat/conversations`) identify the user strictly via verified `req.user.id`.
+- Students can only read, update, or delete their own chat threads.
 
 ---
 
-## 🚀 Key Features
+## 📚 Real Grounded RAG Pipeline
 
-- **Autonomous Academic Regulations**: In-Sem (ISE 40 marks), End-Sem (ESE 60 marks), and 75% attendance policy.
-- **CAP Admissions & Cutoff Archives**: DTE Code 6175, MHT-CET & JEE Main cutoffs spanning 2023, 2024, 2025, and expected 2026.
-- **Student Clubs & Associations**: Complete profiles for ITSA (Information Technology), CESA, Team Kratos Racing (TKR), Robocon, and Inspiria symposium.
-- **Training & Placement (T&P)**: Highest package (61.0 LPA), average package (8.4 LPA), and marquee recruiters (Microsoft, Barclays, Adobe, TCS, ZF Group).
-- **Hostel & Campus Life**: Nigdi campus boys & girls hostels, annual fees (Double Rs. 95k / Triple Rs. 75k / Mess Rs. 38k), and curfew timings (9:30 PM).
-- **MahaDBT Scholarships**: EBC 50% tuition waiver, TFWS 100% waiver, and category freeships.
-- **Real-Time RAG Diagnostics**: Dedicated diagnostic test runner and health monitor (`/api/admin/diagnostics`).
-- **Zero Hallucination Guardrails**: Strict refusal on out-of-domain questions with 0 fake sources attached.
+```
+Student Question
+      ↓
+Query Embedding (OpenAI text-embedding-3-small / Gemini)
+      ↓
+Pinecone Vector Database (1024-dim Cosine Similarity Search)
+      ↓
+Top-K Relevant Chunks (with Page Numbers & Handbook References)
+      ↓
+Structured MongoDB Knowledge Check (Faculty, Cutoffs, Fees, Clubs)
+      ↓
+Strict Prompt Context Construction (Zero-Hallucination Guardrails)
+      ↓
+LLM Generation (OpenAI / Gemini / OpenRouter)
+      ↓
+Final Grounded Answer + Source Attribution Cards
+```
 
----
-
-## 🛠️ Technology Stack
-
-| Layer | Technologies |
-|---|---|
-| **Frontend** | React 18, TypeScript, Tailwind CSS, Lucide Icons, Vite |
-| **Backend** | Node.js, Express, TypeScript, RESTful API |
-| **Database** | MongoDB Atlas / In-Memory Mock Database |
-| **Vector Store** | Pinecone Vector Database / High-Performance In-Memory Vector DB |
-| **LLM Providers** | OpenRouter (`openrouter/auto`), Google Gemini, OpenAI |
-| **Embeddings** | Dense 128-d Vectorizer / Google Gemini Embeddings |
+### Knowledge Base Ingestion
+- Auto-indexes **140 official knowledge vectors** on boot from:
+  1. *PCCOE Autonomous Academic Regulations & Examination Rules 2026-27*
+  2. *PCCOE Departmental Student Associations & Technical Clubs (ITSA, CESA, TKR)*
+  3. *PCCOE Official Profile & Comprehensive Overview 2026*
+  4. *PCCOE All Departments, Programs & Course Curriculums*
+  5. *PCCOE Collegiate Motorsports & Technical Teams (Red Baron, Kratos, Robocon)*
+  6. *PCCOE National Rankings (NIRF), NBA & NAAC Accreditations*
+  7. *PCCOE Admissions 2026-27: MHT-CET Cutoffs, Fee Structure & Scholarships*
+  8. *PCCOE Training & Placement Cell (T&P) Statistics & Recruiters*
 
 ---
 
 ## ⚙️ Environment Variables
 
-Create `.env` in the root and `backend/`:
-
+### Backend Configuration (Render / Local)
 ```env
-NODE_ENV=development
+NODE_ENV=production
 PORT=5000
-FRONTEND_URL=http://localhost:5173
+FRONTEND_URL=https://pccoe-rag-based-chat-bot.vercel.app
 
 # Database
-MONGODB_URI=mongodb://localhost:27017/pccoe-college-rag-chatbot
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/pccoe-rag?retryWrites=true&w=majority
 
 # Authentication
-JWT_SECRET=pccoe_rag_jwt_super_secret_production_key_2026
+JWT_SECRET=your_super_secret_jwt_key_at_least_32_characters_long
 JWT_EXPIRES_IN=7d
 
-# LLM Providers (openrouter | gemini | openai)
-LLM_PROVIDER=openrouter
-OPENROUTER_API_KEY=your_openrouter_key
-LLM_MODEL=openrouter/auto
+# Google OAuth 2.0
+GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# AI & LLM Providers
+LLM_PROVIDER=openai
+OPENAI_API_KEY=sk-proj-...
+GEMINI_API_KEY=
+OPENROUTER_API_KEY=
+LLM_MODEL=gpt-4o-mini
 
 # Embeddings
-EMBEDDING_PROVIDER=local
-EMBEDDING_MODEL=dense-128
+EMBEDDING_PROVIDER=openai
+EMBEDDING_MODEL=text-embedding-3-small
 
-# Vector DB (memory | pinecone)
-VECTOR_STORE_PROVIDER=memory
-PINECONE_API_KEY=
+# Vector Database (Pinecone)
+VECTOR_STORE_PROVIDER=pinecone
+PINECONE_API_KEY=pcsk_...
 PINECONE_INDEX=pccoe-rag
+PINECONE_ENVIRONMENT=
 
-# Admin Seed
+# Administrator Privileges
 ADMIN_EMAIL=admin@pccoe.org
+ADMIN_EMAILS=admin@pccoe.org
 ADMIN_PASSWORD=PccoeAdmin2026!
 ADMIN_NAME=PCCOE Administrator
 ```
 
----
-
-## 📦 Setup & Local Run
-
-### 1. Install Dependencies
-```bash
-# Install backend dependencies
-cd backend
-npm install
-
-# Install frontend dependencies
-cd ../frontend
-npm install
+### Frontend Configuration (Vercel / Local)
+```env
+VITE_API_URL=https://pccoe-rag-backend.onrender.com/api
+VITE_GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
 ```
 
-### 2. Run Locally
+---
+
+## 🚀 Quickstart & Local Setup
+
+### 1. Clone & Install
 ```bash
-# In the root directory:
+git clone https://github.com/rohitgaikwad6156/PCCOE-RAG-based-chat-bot.git
+cd PCCOE-RAG-based-chat-bot
+
+# Install all dependencies
+npm run install:all
+```
+
+### 2. Start Development Servers
+```bash
 npm run dev
 ```
-
-- **Frontend Application**: [`http://localhost:5173`](http://localhost:5173)
-- **Backend API**: [`http://localhost:5000`](http://localhost:5000)
-- **RAG Diagnostics**: [`http://localhost:5000/api/admin/diagnostics`](http://localhost:5000/api/admin/diagnostics)
-
-### 3. Run Automated Acceptance Suite
-```bash
-cd backend
-npm run build
-node dist/utils/testRagPipeline.js
-```
+- **Frontend App**: `http://localhost:5173`
+- **Backend API**: `http://localhost:5000`
 
 ---
 
-## 👥 Demo Login Accounts
+## 🌐 Cloud Deployment Guide
 
-| Role | Email | Password |
-|---|---|---|
-| **PCCOE Administrator** | `admin@pccoe.org` | `PccoeAdmin2026!` |
-| **Student** | `student@pccoe.org` | `PccoeStudent2026!` |
+### Deploy Backend on Render
+1. Go to [dashboard.render.com](https://dashboard.render.com) → **New +** → **Web Service**.
+2. Connect your repo and set:
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm start`
+3. Add backend environment variables (from the table above).
+4. In **MongoDB Atlas** → **Network Access** → add `0.0.0.0/0` (Allow from Anywhere).
+
+### Deploy Frontend on Vercel
+1. Go to [vercel.com](https://vercel.com) → **Add New...** → **Project**.
+2. Import repository and set:
+   - **Root Directory**: `frontend`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+3. Add `VITE_API_URL=https://pccoe-rag-backend.onrender.com/api`.
+4. Click **Deploy**.
+
+---
+
+## 👥 Demo Access Accounts
+
+| Role | Email | Password | Google Sign-In |
+|---|---|---|---|
+| **PCCOE Administrator** | `admin@pccoe.org` | `PccoeAdmin2026!` | Auto-Admin |
+| **PCCOE Student** | `student@pccoe.org` | `PccoeStudent2026!` | Standard Student |
+| **Google User** | `your.email@gmail.com` | N/A | One-Click OAuth |
 
 ---
 
 ## 📄 License
-MIT License. Built for **Pimpri Chinchwad College of Engineering (PCCOE), Pune**.
+MIT License. Developed for **Pimpri Chinchwad College of Engineering (PCCOE), Pune**.

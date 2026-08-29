@@ -7,9 +7,12 @@ export interface IUser extends MongooseDocument {
   passwordHash?: string;
   role: 'student' | 'admin';
   department: string;
+  profilePicture?: string;
   avatar?: string;
   googleId?: string;
   authProvider: 'local' | 'google';
+  isActive: boolean;
+  lastLoginAt: Date;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -48,6 +51,10 @@ const UserSchema = new Schema<IUser>(
       default: 'General',
       trim: true,
     },
+    profilePicture: {
+      type: String,
+      default: '',
+    },
     avatar: {
       type: String,
       default: '',
@@ -61,6 +68,14 @@ const UserSchema = new Schema<IUser>(
       type: String,
       enum: ['local', 'google'],
       default: 'local',
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    lastLoginAt: {
+      type: Date,
+      default: Date.now,
     },
   },
   { timestamps: true }

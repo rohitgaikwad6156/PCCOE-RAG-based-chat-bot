@@ -28,8 +28,13 @@ export const env = {
   PINECONE_INDEX: process.env.PINECONE_INDEX || 'pccoe-rag',
   PINECONE_ENVIRONMENT: process.env.PINECONE_ENVIRONMENT || '',
 
-  // Admin seed for PCCOE
+  // Google OAuth 2.0 Credentials
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || '',
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || '',
+
+  // Admin seed & authorized admin emails for PCCOE
   ADMIN_EMAIL: process.env.ADMIN_EMAIL || 'admin@pccoe.org',
+  ADMIN_EMAILS: (process.env.ADMIN_EMAILS || 'admin@pccoe.org').split(',').map((e) => e.trim().toLowerCase()),
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || 'PccoeAdmin2026!',
   ADMIN_NAME: process.env.ADMIN_NAME || 'PCCOE Administrator',
 

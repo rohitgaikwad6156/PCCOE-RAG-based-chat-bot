@@ -29,16 +29,20 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
 
   const from = (location.state as any)?.from?.pathname || '/chat';
 
-  // Read Google Client ID from environment
-  const GOOGLE_CLIENT_ID =
-    import.meta.env.VITE_GOOGLE_CLIENT_ID ||
-    '1082572186835-samplepccoegoogleoauthclientid.apps.googleusercontent.com';
+  // Read Google Client ID from environment (only initialize Google SDK if real Client ID exists)
+  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
   const PRESET_ACCOUNTS = [
     {
       name: 'Rohit Gaikwad',
+      email: 'grohit6156@gmail.com',
+      tag: 'Primary Google Account',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+    },
+    {
+      name: 'Rohit Gaikwad (PCCOE)',
       email: 'rohit.gaikwad@pccoe.edu.in',
-      tag: 'PCCOE Institutional',
+      tag: 'Institutional Account',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
     },
     {
@@ -66,50 +70,39 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
   };
 
   useEffect(() => {
-    const initGoogleIdentity = () => {
-      if (window.google?.accounts?.id) {
-        try {
-          window.google.accounts.id.initialize({
-            client_id: GOOGLE_CLIENT_ID,
-            callback: handleCredentialResponse,
-            auto_select: false,
-            cancel_on_tap_outside: true,
+    // Only mount Google's external SDK button if a valid client ID has been provided
+    if (GOOGLE_CLIENT_ID && window.google?.accounts?.id) {
+      try {
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleCredentialResponse,
+          auto_select: false,
+          cancel_on_tap_outside: true,
+        });
+
+        if (googleBtnContainerRef.current) {
+          googleBtnContainerRef.current.innerHTML = '';
+          window.google.accounts.id.renderButton(googleBtnContainerRef.current, {
+            type: 'standard',
+            theme: 'filled_black',
+            size: 'large',
+            text: 'continue_with',
+            shape: 'pill',
+            logo_alignment: 'left',
+            width: 360,
           });
-
-          if (googleBtnContainerRef.current) {
-            googleBtnContainerRef.current.innerHTML = '';
-            window.google.accounts.id.renderButton(googleBtnContainerRef.current, {
-              type: 'standard',
-              theme: 'filled_black',
-              size: 'large',
-              text: 'continue_with',
-              shape: 'pill',
-              logo_alignment: 'left',
-              width: 360,
-            });
-            // Verify if Google inserted iframe/elements
-            if (googleBtnContainerRef.current.children.length > 0) {
-              setIsGoogleBtnRendered(true);
-            }
+          if (googleBtnContainerRef.current.children.length > 0) {
+            setIsGoogleBtnRendered(true);
           }
-        } catch (err) {
-          console.warn('Google SDK init notice:', err);
         }
+      } catch (err) {
+        console.warn('Google SDK init notice:', err);
       }
-    };
-
-    initGoogleIdentity();
-    const interval = setInterval(initGoogleIdentity, 400);
-    const timer = setTimeout(() => clearInterval(interval), 4000);
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timer);
-    };
+    }
   }, [GOOGLE_CLIENT_ID]);
 
   const handleGoogleClick = () => {
-    if (window.google?.accounts?.id && import.meta.env.VITE_GOOGLE_CLIENT_ID) {
+    if (GOOGLE_CLIENT_ID && window.google?.accounts?.id) {
       try {
         window.google.accounts.id.prompt((notification: any) => {
           if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
@@ -174,16 +167,14 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
 
   return (
     <div className="w-full">
-      {/* Official Google GSI Rendered Button (Shown ONLY when successfully rendered) */}
-      <div
-        ref={googleBtnContainerRef}
-        className={`w-full flex justify-center [&_iframe]:!w-full [&_iframe]:!max-w-full ${
-          !isGoogleBtnRendered ? 'hidden' : ''
-        }`}
-      />
-
-      {/* Styled Google Button (Shown ONLY when Google iframe is not active) */}
-      {!isGoogleBtnRendered && (
+      {/* Official Google GSI Rendered Button (when Google Client ID is configured) */}
+      {isGoogleBtnRendered ? (
+        <div
+          ref={googleBtnContainerRef}
+          className="w-full flex justify-center [&_iframe]:!w-full [&_iframe]:!max-w-full"
+        />
+      ) : (
+        /* Single Clean "Continue with Google" Button */
         <button
           type="button"
           onClick={handleGoogleClick}
@@ -258,7 +249,7 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
             {/* Quick Pick Accounts */}
             <div className="space-y-2 mb-4">
               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                Saved Accounts:
+                Select Account:
               </div>
               {PRESET_ACCOUNTS.map((acc) => (
                 <button

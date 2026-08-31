@@ -80,14 +80,17 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
         });
         if (googleBtnContainerRef.current) {
           googleBtnContainerRef.current.innerHTML = '';
+          const containerWidth = googleBtnContainerRef.current.offsetWidth || 360;
+          const targetWidth = Math.min(400, Math.max(250, containerWidth));
+
           window.google.accounts.id.renderButton(googleBtnContainerRef.current, {
             type: 'standard',
             theme: 'filled_black',
             size: 'large',
             text: 'continue_with',
-            shape: 'pill',
+            shape: 'rectangular',
             logo_alignment: 'left',
-            width: 360,
+            width: targetWidth,
           });
           if (googleBtnContainerRef.current.children.length > 0) {
             setIsGoogleBtnRendered(true);
@@ -276,7 +279,7 @@ export const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({ label = 'C
       {/* Official Google GSI rendered button */}
       <div
         ref={googleBtnContainerRef}
-        className={`w-full flex justify-center [&_iframe]:!w-full [&_iframe]:!max-w-full ${isLoading ? 'hidden' : ''}`}
+        className={`w-full flex justify-center items-center overflow-hidden min-h-[44px] ${isLoading ? 'hidden' : ''}`}
       />
 
       {/* Fallback while SDK initializes */}

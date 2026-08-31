@@ -33,10 +33,20 @@ export class AuthService {
     }
   }
 
+  isAuthorizedAdmin(email: string): boolean {
+    if (!email || typeof email !== 'string') return false;
+    const clean = email.toLowerCase().trim();
+    if (!clean) return false;
+    if (env.ADMIN_EMAIL && clean === env.ADMIN_EMAIL.toLowerCase().trim()) return true;
+    return env.ADMIN_EMAILS.includes(clean);
+  }
+
   generateToken(user: any): string {
     const userId = user._id ? user._id.toString() : user.id;
+    const cleanEmail = (user.email || '').toLowerCase().trim();
+    const role: 'student' | 'admin' = this.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
     return jwt.sign(
-      { userId, role: user.role },
+      { userId, role },
       env.JWT_SECRET,
       { expiresIn: env.JWT_EXPIRES_IN as any }
     );
@@ -45,23 +55,19 @@ export class AuthService {
   formatUser(user: any) {
     const id = user._id ? user._id.toString() : user.id;
     const picture = user.profilePicture || user.avatar || '';
+    const cleanEmail = (user.email || '').toLowerCase().trim();
+    const role: 'student' | 'admin' = this.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
     return {
       id,
       name: user.name,
       email: user.email,
-      role: user.role as 'student' | 'admin',
+      role,
       department: user.department || 'General',
       avatar: picture,
       profilePicture: picture,
       authProvider: (user.authProvider || 'local') as 'local' | 'google',
       lastLoginAt: user.lastLoginAt,
     };
-  }
-
-  private isAuthorizedAdmin(email: string): boolean {
-    const clean = email.toLowerCase().trim();
-    if (env.ADMIN_EMAIL && clean === env.ADMIN_EMAIL.toLowerCase().trim()) return true;
-    return env.ADMIN_EMAILS.includes(clean);
   }
 
   async signup(name: string, email: string, password: string, department = 'General', role: 'student' | 'admin' = 'student'): Promise<AuthTokens> {
@@ -145,6 +151,7 @@ export class AuthService {
       }
 
       user.lastLoginAt = new Date();
+      user.role = this.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
       await user.save();
 
       const token = this.generateToken(user);
@@ -173,6 +180,7 @@ export class AuthService {
     }
 
     foundUser.lastLoginAt = new Date();
+    foundUser.role = this.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
 
     const token = this.generateToken(foundUser);
     return {
@@ -225,7 +233,7 @@ export class AuthService {
     const cleanEmail = verifiedEmail.toLowerCase().trim();
     const finalName = verifiedName.trim() || cleanEmail.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
     // Role is always assigned server-side; ADMIN_EMAILS controls admin access
-    const assignedRole = this.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
+    const assignedRole: 'student' | 'admin' = this.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
 
     logger.info(`Authenticating verified Google user: ${cleanEmail} (Role: ${assignedRole})`);
 
@@ -241,10 +249,7 @@ export class AuthService {
         }
         user.authProvider = 'google';
         user.lastLoginAt = new Date();
-        // Re-check admin status in case ADMIN_EMAILS was updated
-        if (this.isAuthorizedAdmin(cleanEmail)) {
-          user.role = 'admin';
-        }
+        user.role = assignedRole;
         await user.save();
       } else {
         // Create new user with verified Google identity
@@ -287,9 +292,7 @@ export class AuthService {
       }
       foundUser.authProvider = 'google';
       foundUser.lastLoginAt = new Date();
-      if (this.isAuthorizedAdmin(cleanEmail)) {
-        foundUser.role = 'admin';
-      }
+      foundUser.role = assignedRole;
     } else {
       const newId = new mongoose.Types.ObjectId().toString();
       foundUser = {

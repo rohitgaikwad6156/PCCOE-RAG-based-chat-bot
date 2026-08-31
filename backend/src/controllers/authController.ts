@@ -39,6 +39,15 @@ export class AuthController {
         return;
       }
 
+      const cleanEmail = (req.user.email || '').toLowerCase().trim();
+      const expectedRole = authService.isAuthorizedAdmin(cleanEmail) ? 'admin' : 'student';
+      if (req.user.role !== expectedRole) {
+        req.user.role = expectedRole;
+        if (req.user.save) {
+          await req.user.save().catch(() => {});
+        }
+      }
+
       res.status(200).json({
         success: true,
         data: {

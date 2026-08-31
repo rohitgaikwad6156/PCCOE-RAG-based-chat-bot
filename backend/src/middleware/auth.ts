@@ -54,7 +54,12 @@ export async function requireAuth(req: AuthRequest, res: Response, next: NextFun
 }
 
 export function requireAdmin(req: AuthRequest, res: Response, next: NextFunction): void {
-  if (!req.user || req.user.role !== 'admin') {
+  const userEmail = req.user?.email ? req.user.email.toLowerCase().trim() : '';
+  const isAuthorized =
+    (env.ADMIN_EMAIL && userEmail === env.ADMIN_EMAIL.toLowerCase().trim()) ||
+    env.ADMIN_EMAILS.includes(userEmail);
+
+  if (!req.user || req.user.role !== 'admin' || !isAuthorized) {
     res.status(403).json({
       success: false,
       message: 'Forbidden: Administrator privileges are required to access this resource.',

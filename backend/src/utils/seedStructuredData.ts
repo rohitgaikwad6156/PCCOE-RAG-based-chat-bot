@@ -8,6 +8,8 @@ import { Placement } from '../models/Placement';
 import { Hostel } from '../models/Hostel';
 import { Scholarship } from '../models/Scholarship';
 import { Library } from '../models/Library';
+import { Collection } from '../models/Collection';
+import { DEFAULT_COLLECTIONS } from '../config/constants';
 import { isDbConnected } from '../config/database';
 import { logger } from './logger';
 
@@ -701,6 +703,20 @@ export async function seedStructuredData(): Promise<void> {
         facilities: ['Book Bank for First Year students', 'Book Bank for Reserved Category students', 'OPAC (Online Public Access Catalog)', 'Reading halls with quiet study zones', 'Computer terminals with high-speed internet'],
       });
       logger.info('✅ Seeded PCCOE Central Library in MongoDB Atlas.');
+    }
+
+    // 11. Seed Knowledge Collections
+    const colCount = await Collection.countDocuments();
+    if (colCount === 0) {
+      await Collection.insertMany(
+        DEFAULT_COLLECTIONS.map((name) => ({
+          name,
+          description: `${name} official documents`,
+          department: 'All Departments',
+          documentCount: 0,
+        }))
+      );
+      logger.info('✅ Seeded PCCOE Knowledge Collections in MongoDB Atlas.');
     }
 
     logger.info('🎉 All PCCOE collections successfully seeded in MongoDB Atlas.');

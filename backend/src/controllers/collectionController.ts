@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import { Collection } from '../models/Collection';
+import { Document } from '../models/Document';
 import { DEFAULT_DEPARTMENTS, DEFAULT_COLLECTIONS } from '../config/constants';
 import { isDbConnected } from '../config/database';
 import { memoryDb } from '../config/memoryDb';
@@ -9,19 +10,38 @@ export class CollectionController {
   async getCollections(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       if (isDbConnected()) {
-        const collections = await Collection.find().sort({ name: 1 }).lean();
+        let collections = await Collection.find().sort({ name: 1 }).lean();
+
+        if (collections.length === 0) {
+          const defaultDocs = DEFAULT_COLLECTIONS.map((name) => ({
+            name,
+            description: `${name} official documents`,
+            department: 'All Departments',
+            documentCount: 0,
+          }));
+          await Collection.insertMany(defaultDocs).catch(() => {});
+          collections = await Collection.find().sort({ name: 1 }).lean();
+        }
+
+        // Dynamically compute live document counts by collectionName from Document collection
+        const docCounts = await Document.aggregate([
+          { $match: { status: { $ne: 'archived' } } },
+          { $group: { _id: '$collectionName', count: { $sum: 1 } } },
+        ]);
+        const countMap = new Map<string, number>();
+        docCounts.forEach((item: any) => {
+          if (item._id) countMap.set(item._id, item.count);
+        });
+
+        const collectionsWithCounts = collections.map((col: any) => ({
+          ...col,
+          documentCount: countMap.get(col.name) || 0,
+        }));
+
         res.status(200).json({
           success: true,
           data: {
-            collections: collections.length > 0
-              ? collections
-              : DEFAULT_COLLECTIONS.map((name, i) => ({
-                  _id: new mongoose.Types.ObjectId().toString(),
-                  name,
-                  description: `${name} official documents`,
-                  department: 'All Departments',
-                  documentCount: 0,
-                })),
+            collections: collectionsWithCounts,
             departments: DEFAULT_DEPARTMENTS,
           },
         });
@@ -37,13 +57,29 @@ export class CollectionController {
           description: `${name} official documents`,
           department: 'All Departments',
           documentCount: 0,
+          createdAt: new Date(),
         }));
+        collections.forEach((c) => memoryDb.collections.set(c._id, c));
       }
+
+      // Compute document counts in memoryDb
+      const memDocs = Array.from(memoryDb.documents.values()).filter((d: any) => d.status !== 'archived');
+      const memCountMap = new Map<string, number>();
+      memDocs.forEach((d: any) => {
+        if (d.collectionName) {
+          memCountMap.set(d.collectionName, (memCountMap.get(d.collectionName) || 0) + 1);
+        }
+      });
+
+      const collectionsWithCounts = collections.map((col: any) => ({
+        ...col,
+        documentCount: memCountMap.get(col.name) || 0,
+      }));
 
       res.status(200).json({
         success: true,
         data: {
-          collections,
+          collections: collectionsWithCounts,
           departments: DEFAULT_DEPARTMENTS,
         },
       });

@@ -113,7 +113,16 @@ export const AdminCollectionsPage: React.FC = () => {
               </div>
 
               <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-500">
-                <span>{col.documentCount || 0} documents linked</span>
+                <Link
+                  to={`/admin/documents?collection=${encodeURIComponent(col.name)}`}
+                  className="hover:text-brand-400 text-slate-400 font-medium transition-colors flex items-center gap-1.5"
+                  title="View documents in this collection"
+                >
+                  <span className="font-bold text-white px-1.5 py-0.5 rounded-md bg-slate-800 text-[11px]">
+                    {col.documentCount || 0}
+                  </span>
+                  <span>{col.documentCount === 1 ? 'document' : 'documents'} linked</span>
+                </Link>
                 <button
                   onClick={() => handleDelete(col._id)}
                   title="Delete collection"

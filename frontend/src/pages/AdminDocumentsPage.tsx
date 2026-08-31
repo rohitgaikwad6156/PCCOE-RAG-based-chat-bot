@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
   FileText,
   UploadCloud,
@@ -21,13 +21,16 @@ import { DocumentItem } from '../types';
 import { useToast } from '../context/ToastContext';
 
 export const AdminDocumentsPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const initialCollectionParam = searchParams.get('collection') || 'All Collections';
+
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [departments, setDepartments] = useState<string[]>([]);
   const [collections, setCollections] = useState<Array<{ name: string }>>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDept, setSelectedDept] = useState('All Departments');
-  const [selectedCollection, setSelectedCollection] = useState('All Collections');
+  const [selectedCollection, setSelectedCollection] = useState(initialCollectionParam);
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -65,6 +68,13 @@ export const AdminDocumentsPage: React.FC = () => {
       setCollections(data.collections);
     });
   }, []);
+
+  useEffect(() => {
+    const colParam = searchParams.get('collection');
+    if (colParam) {
+      setSelectedCollection(colParam);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     fetchDocuments();
